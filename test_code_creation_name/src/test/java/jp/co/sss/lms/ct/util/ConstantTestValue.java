@@ -2,6 +2,10 @@ package jp.co.sss.lms.ct.util;
 
 public class ConstantTestValue {
 	public static final String LMS_LOGIN_URL = "http://localhost:8080/lms/";
+	public static final String LMS_RE_LOGIN_URL = "http://localhost:8080/lms/login";
+	public static final String LMS_COURSE_DETAIL_URL = "http://localhost:8080/lms/course/detail";
+	public static final String LMS_HELP_URL = "http://localhost:8080/lms/help";
+	public static final String LMS_FAQ_URL = "http://localhost:8080/lms/faq";
 	public static final Integer WAIT_FIVE_SECOND = 5;
 	public static final Integer WAIT_TEN_SECOND = 10;
 	public static final String HTML_TAGNAME_DIV = "div";
