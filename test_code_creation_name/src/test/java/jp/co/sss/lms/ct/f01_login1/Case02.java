@@ -45,7 +45,10 @@ public class Case02 {
 		goTo(LMS_LOGIN_URL);
 		// 各画面表示時に10秒待機する
 		webDriver.manage().timeouts().implicitlyWait(WAIT_TEN_SECOND, TimeUnit.SECONDS);
-		getEvidence(new Object() {},"transitionLogin_1");
+		getEvidence(new Object() {
+		}, "transitionLogin_1");
+		String nowURL = webDriver.getCurrentUrl();
+		assertEquals(nowURL, LMS_LOGIN_URL);
 	}
 
 	@Test
@@ -56,19 +59,21 @@ public class Case02 {
 		WebElement loginId = webDriver.findElement(By.name("loginId"));
 		WebElement password = webDriver.findElement(By.name("password"));
 		WebElement loginButton = webDriver.findElement(By.xpath("//input[@value='ログイン']"));
-		
+
 		//要素入力
 		loginId.sendKeys(NO_EXIST_STUDENT);
 		password.sendKeys(NO_EXIST_STUDENT);
 		webDriver.manage().timeouts().implicitlyWait(WAIT_TEN_SECOND, TimeUnit.SECONDS);
-		getEvidence(new Object() {},"beforeLogin_1");
+		getEvidence(new Object() {
+		}, "beforeLogin_1");
 		loginButton.click();
 		webDriver.manage().timeouts().implicitlyWait(WAIT_TEN_SECOND, TimeUnit.SECONDS);
-		getEvidence(new Object() {},"afterLogin_2");
-		
+		getEvidence(new Object() {
+		}, "afterLogin_2");
+
 		WebElement error = webDriver.findElement(By.className("help-inline"));
 		String errorMsg = error.getText();
-		assertEquals(errorMsg,"* ログインに失敗しました。");
+		assertEquals(errorMsg, ERROR_MSG_FAIL_LOGIN);
 	}
 
 }

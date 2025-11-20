@@ -29,7 +29,6 @@ public class Case01 {
 		createDriver();
 		setWaitTime();
 	}
-	
 
 	/** 後処理 */
 	@AfterAll
@@ -44,9 +43,10 @@ public class Case01 {
 		goTo(LMS_LOGIN_URL);
 		// 各画面表示時に10秒待機する
 		webDriver.manage().timeouts().implicitlyWait(WAIT_TEN_SECOND, TimeUnit.SECONDS);
-		getEvidence(new Object() {},"transitionLogin");
+		getEvidence(new Object() {
+		}, "transitionLogin");
 		String nowURL = webDriver.getCurrentUrl();
-		assertEquals(nowURL,LMS_LOGIN_URL);
+		assertEquals(nowURL, LMS_LOGIN_URL);
 	}
 
 }

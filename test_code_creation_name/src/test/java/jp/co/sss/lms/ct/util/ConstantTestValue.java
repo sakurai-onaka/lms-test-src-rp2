@@ -8,4 +8,7 @@ public class ConstantTestValue {
 	public static final String DRIVER_TYPE = "webdriver.chrome.driver";
 	public static final String DRIVER_EXE_PATH = "lib/chromedriver.exe";
 	public static final String NO_EXIST_STUDENT = "noExistStudent";
+	public static final String EXIST_STUDENT_ID = "StudentAA01";
+	public static final String EXIST_STUDENT_PASS = "System3sss";
+	public static final String ERROR_MSG_FAIL_LOGIN = "* ログインに失敗しました。";
 }
