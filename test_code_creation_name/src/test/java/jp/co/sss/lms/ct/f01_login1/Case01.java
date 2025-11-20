@@ -1,6 +1,9 @@
 package jp.co.sss.lms.ct.f01_login1;
 
+import static jp.co.sss.lms.ct.util.ConstantTestValue.*;
 import static jp.co.sss.lms.ct.util.WebDriverUtils.*;
+
+import java.util.concurrent.TimeUnit;
 
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
@@ -9,6 +12,8 @@ import org.junit.jupiter.api.MethodOrderer.OrderAnnotation;
 import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestMethodOrder;
+
+import jp.co.sss.lms.ct.util.WebDriverUtils;
 
 /**
  * 結合テスト ログイン機能①
@@ -23,7 +28,9 @@ public class Case01 {
 	@BeforeAll
 	static void before() {
 		createDriver();
+		setWaitTime();
 	}
+	
 
 	/** 後処理 */
 	@AfterAll
@@ -35,7 +42,10 @@ public class Case01 {
 	@Order(1)
 	@DisplayName("テスト01 トップページURLでアクセス")
 	void test01() {
-		// TODO ここに追加
+		goTo(LMS_LOGIN_URL);
+		// 各画面表示時に10秒待機する
+		WebDriverUtils.webDriver.manage().timeouts().implicitlyWait(WAIT_TEN_SECOND, TimeUnit.SECONDS);
+		getEvidence(new Object() {});
 	}
 
 }

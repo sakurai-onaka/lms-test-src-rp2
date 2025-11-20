@@ -1,5 +1,7 @@
 package jp.co.sss.lms.ct.util;
 
+import static jp.co.sss.lms.ct.util.ConstantTestValue.*;
+
 import java.io.File;
 import java.io.IOException;
 import java.time.Duration;
@@ -23,14 +25,24 @@ public class WebDriverUtils {
 
 	/** Webドライバ */
 	public static WebDriver webDriver;
+	/** 明示的待機時間設定変数 */
+	public static WebDriverWait wait;
 
 	/**
 	 * インスタンス取得
 	 * @return Webドライバ
 	 */
 	public static void createDriver() {
-		System.setProperty("webdriver.chrome.driver", "lib/chromedriver.exe");
+		System.setProperty(DRIVER_TYPE, DRIVER_EXE_PATH);
 		webDriver = new ChromeDriver();
+	}
+	
+	/**
+	 * 待機時間設定
+	 * @return Webドライバ
+	 */
+	public static void setWaitTime() {
+		wait = new WebDriverWait(webDriver, Duration.ofSeconds(WAIT_TEN_SECOND));
 	}
 	
 	/**
@@ -46,7 +58,9 @@ public class WebDriverUtils {
 	 */
 	public static void goTo(String url) {
 		webDriver.get(url);
-		pageLoadTimeout(5);
+		pageLoadTimeout(WAIT_FIVE_SECOND);
+		 // ブラウザウィンドウを最大化
+		webDriver.manage().window().maximize();
 	}
 	
 	/**
