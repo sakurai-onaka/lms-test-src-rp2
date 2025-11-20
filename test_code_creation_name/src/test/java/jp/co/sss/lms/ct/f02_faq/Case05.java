@@ -1,7 +1,11 @@
 package jp.co.sss.lms.ct.f02_faq;
 
+import static jp.co.sss.lms.ct.util.ConstantTestValue.*;
 import static jp.co.sss.lms.ct.util.WebDriverUtils.*;
 import static org.junit.jupiter.api.Assertions.*;
+
+import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
@@ -11,7 +15,9 @@ import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestMethodOrder;
 import org.openqa.selenium.By;
+import org.openqa.selenium.WebElement;
 
+import jp.co.sss.lms.ct.util.WebDriverUtils;
 
 /**
  * 結合テスト よくある質問機能
@@ -26,6 +32,7 @@ public class Case05 {
 	@BeforeAll
 	static void before() {
 		createDriver();
+		setWaitTime();
 	}
 
 	/** 後処理 */
@@ -38,41 +45,127 @@ public class Case05 {
 	@Order(1)
 	@DisplayName("テスト01 トップページURLでアクセス")
 	void test01() {
-		// TODO ここに追加
+		goTo(LMS_LOGIN_URL);
+		// 各画面表示時に10秒待機する
+		webDriver.manage().timeouts().implicitlyWait(WAIT_TEN_SECOND, TimeUnit.SECONDS);
+		getEvidence(new Object() {
+		}, "transitionLogin_1");
+		String nowURL = webDriver.getCurrentUrl();
+		assertEquals(nowURL, LMS_LOGIN_URL);
 	}
 
 	@Test
 	@Order(2)
 	@DisplayName("テスト02 初回ログイン済みの受講生ユーザーでログイン")
 	void test02() {
-		// TODO ここに追加
+		//要素取得
+		WebElement loginId = webDriver.findElement(By.name("loginId"));
+		WebElement password = webDriver.findElement(By.name("password"));
+		WebElement loginButton = webDriver.findElement(By.xpath("//input[@value='ログイン']"));
+
+		//要素入力
+		loginId.sendKeys(EXIST_STUDENT_ID);
+		password.sendKeys(EXIST_STUDENT_PASS);
+		webDriver.manage().timeouts().implicitlyWait(WAIT_TEN_SECOND, TimeUnit.SECONDS);
+		getEvidence(new Object() {
+		}, "beforeLogin_1");
+		loginButton.click();
+		webDriver.manage().timeouts().implicitlyWait(WAIT_TEN_SECOND, TimeUnit.SECONDS);
+		getEvidence(new Object() {
+		}, "afterLogin_2");
+
+		String nowURL = webDriver.getCurrentUrl();
+		assertEquals(nowURL, LMS_COURSE_DETAIL_URL);
 	}
-	
+
 	@Test
 	@Order(3)
 	@DisplayName("テスト03 上部メニューの「ヘルプ」リンクからヘルプ画面に遷移")
 	void test03() {
-		// TODO ここに追加
+		//要素取得
+		WebElement functionButton = webDriver.findElement(By.className("dropdown-toggle"));
+		functionButton.click();
+		webDriver.manage().timeouts().implicitlyWait(WAIT_TEN_SECOND, TimeUnit.SECONDS);
+		getEvidence(new Object() {
+		}, "beforeClickHelp_1");
+		//プルダウンのヘルプを取得
+		webDriver.findElement(By.xpath("//a[text()='ヘルプ']")).click();
+		webDriver.manage().timeouts().implicitlyWait(WAIT_TEN_SECOND, TimeUnit.SECONDS);
+		getEvidence(new Object() {
+		}, "afterClickHelp_2");
+		String nowURL = webDriver.getCurrentUrl();
+		assertEquals(nowURL, LMS_HELP_URL);
 	}
 
 	@Test
 	@Order(4)
 	@DisplayName("テスト04 「よくある質問」リンクからよくある質問画面を別タブに開く")
 	void test04() {
-		// TODO ここに追加
+		//よくある質問を取得
+		webDriver.findElement(By.xpath("//a[text()='よくある質問']")).click();
+		//別タブに切り替え
+		Object[] windowHandles = webDriver.getWindowHandles().toArray();
+		webDriver.switchTo().window((String) windowHandles[1]);
+		//エビデンス取得・テスト
+		webDriver.manage().timeouts().implicitlyWait(WAIT_TEN_SECOND, TimeUnit.SECONDS);
+		getEvidence(new Object() {
+		}, "beforeClickFAQ_1");
+		String nowURL = webDriver.getCurrentUrl();
+		assertEquals(nowURL, LMS_FAQ_URL);
 	}
+
 	@Test
 	@Order(5)
 	@DisplayName("テスト05 キーワード検索で該当キーワードを含む検索結果だけ表示")
 	void test05() {
-		// TODO ここに追加
+		WebElement keyword = webDriver.findElement(By.name("keyword"));
+		WebElement searchButton = webDriver.findElement(By.xpath("//input[@value='検索']"));
+		keyword.sendKeys(SEARCH_KEYWORD);
+		webDriver.manage().timeouts().implicitlyWait(WAIT_TEN_SECOND, TimeUnit.SECONDS);
+		getEvidence(new Object() {
+		}, "beforeClickSearch_1");
+		searchButton.click();
+
+		//検索結果欄にスクロールするために使用する要素
+		WebElement searchBoxElem = webDriver.findElement(By.className("well"));
+		int searchBoxheight = searchBoxElem.getSize().getHeight();
+		WebDriverUtils.scrollBy(String.valueOf(searchBoxheight));
+		webDriver.manage().timeouts().implicitlyWait(WAIT_TEN_SECOND, TimeUnit.SECONDS);
+		getEvidence(new Object() {
+		}, "afterClickSearch_1");
+
+		//検索結果に検索した文字列が含まれるかチェック
+		List<WebElement> resultList = webDriver.findElements(By.tagName("dl"));
+		int roopCount = 0;
+		for (WebElement result : resultList) {
+			roopCount++;
+			result.click();
+			int height = result.getSize().getHeight();
+			WebDriverUtils.scrollBy(String.valueOf(height));
+			webDriver.manage().timeouts().implicitlyWait(WAIT_TEN_SECOND, TimeUnit.SECONDS);
+			getEvidence(new Object() {
+			}, "result_" + roopCount);
+			//先頭文字のQ.とA.を削除する。
+			String sumText = result.findElement(By.tagName("dt")).getText().substring(2);
+			sumText += result.findElement(By.tagName("dd")).getText().substring(2);
+			assertTrue(sumText.contains(SEARCH_KEYWORD));
+		}
 	}
-	
+
 	@Test
 	@Order(6)
 	@DisplayName("テスト06 「クリア」ボタン押下で入力したキーワードを消去")
 	void test06() {
-		// TODO ここに追加
+		WebDriverUtils.scrollTo("0");
+		WebElement keyword = webDriver.findElement(By.name("keyword"));
+		WebElement clearButton = webDriver.findElement(By.xpath("//input[@value='クリア']"));
+		getEvidence(new Object() {
+		}, "beforeClickClear_1");
+		clearButton.click();
+		webDriver.manage().timeouts().implicitlyWait(WAIT_TEN_SECOND, TimeUnit.SECONDS);
+		getEvidence(new Object() {
+		}, "afterClickClear_1");
+		assertTrue(keyword.getText().equals(""));
 	}
 
 }

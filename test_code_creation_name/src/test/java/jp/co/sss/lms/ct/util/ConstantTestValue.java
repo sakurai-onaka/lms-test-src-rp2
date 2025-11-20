@@ -15,4 +15,5 @@ public class ConstantTestValue {
 	public static final String EXIST_STUDENT_ID = "StudentAA01";
 	public static final String EXIST_STUDENT_PASS = "System3sss";
 	public static final String ERROR_MSG_FAIL_LOGIN = "* ログインに失敗しました。";
+	public static final String SEARCH_KEYWORD = "く";
 }
