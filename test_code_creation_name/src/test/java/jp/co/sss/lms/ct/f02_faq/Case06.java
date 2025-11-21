@@ -1,6 +1,11 @@
 package jp.co.sss.lms.ct.f02_faq;
 
+import static jp.co.sss.lms.ct.util.ConstantTestValue.*;
 import static jp.co.sss.lms.ct.util.WebDriverUtils.*;
+import static org.junit.jupiter.api.Assertions.*;
+
+import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
@@ -9,20 +14,34 @@ import org.junit.jupiter.api.MethodOrderer.OrderAnnotation;
 import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestMethodOrder;
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebElement;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
+
+import jp.co.sss.lms.ct.util.WebDriverUtils;
+import jp.co.sss.lms.dto.FaqDto;
+import jp.co.sss.lms.form.FaqSearchForm;
+import jp.co.sss.lms.service.FaqService;
 
 /**
  * 結合テスト よくある質問機能
  * ケース06
  * @author holy
  */
+@SpringBootTest
 @TestMethodOrder(OrderAnnotation.class)
 @DisplayName("ケース06 カテゴリ検索 正常系")
 public class Case06 {
+
+	@Autowired
+	private FaqService faqService;
 
 	/** 前処理 */
 	@BeforeAll
 	static void before() {
 		createDriver();
+		setWaitTime();
 	}
 
 	/** 後処理 */
@@ -35,42 +54,148 @@ public class Case06 {
 	@Order(1)
 	@DisplayName("テスト01 トップページURLでアクセス")
 	void test01() {
-		// TODO ここに追加
+		goTo(LMS_LOGIN_URL);
+		// 各画面表示時に10秒待機する
+		webDriver.manage().timeouts().implicitlyWait(WAIT_TEN_SECOND, TimeUnit.SECONDS);
+		getEvidence(new Object() {
+		}, "transitionLogin_1");
+		String nowURL = webDriver.getCurrentUrl();
+		assertEquals(nowURL, LMS_LOGIN_URL);
 	}
 
 	@Test
 	@Order(2)
 	@DisplayName("テスト02 初回ログイン済みの受講生ユーザーでログイン")
 	void test02() {
-		// TODO ここに追加
+		//要素取得
+		WebElement loginId = webDriver.findElement(By.name("loginId"));
+		WebElement password = webDriver.findElement(By.name("password"));
+		WebElement loginButton = webDriver.findElement(By.xpath("//input[@value='ログイン']"));
+
+		//要素入力
+		loginId.sendKeys(EXIST_STUDENT_ID);
+		password.sendKeys(EXIST_STUDENT_PASS);
+		webDriver.manage().timeouts().implicitlyWait(WAIT_TEN_SECOND, TimeUnit.SECONDS);
+		getEvidence(new Object() {
+		}, "beforeLogin_1");
+		loginButton.click();
+		webDriver.manage().timeouts().implicitlyWait(WAIT_TEN_SECOND, TimeUnit.SECONDS);
+		getEvidence(new Object() {
+		}, "afterLogin_2");
+
+		String nowURL = webDriver.getCurrentUrl();
+		assertEquals(nowURL, LMS_COURSE_DETAIL_URL);
 	}
 
 	@Test
 	@Order(3)
 	@DisplayName("テスト03 上部メニューの「ヘルプ」リンクからヘルプ画面に遷移")
 	void test03() {
-		// TODO ここに追加
+		//要素取得
+		WebElement functionButton = webDriver.findElement(By.className("dropdown-toggle"));
+		functionButton.click();
+		webDriver.manage().timeouts().implicitlyWait(WAIT_TEN_SECOND, TimeUnit.SECONDS);
+		getEvidence(new Object() {
+		}, "beforeClickHelp_1");
+		//プルダウンのヘルプを取得
+		webDriver.findElement(By.xpath("//a[text()='ヘルプ']")).click();
+		webDriver.manage().timeouts().implicitlyWait(WAIT_TEN_SECOND, TimeUnit.SECONDS);
+		getEvidence(new Object() {
+		}, "afterClickHelp_2");
+		String nowURL = webDriver.getCurrentUrl();
+		assertEquals(nowURL, LMS_HELP_URL);
 	}
 
 	@Test
 	@Order(4)
 	@DisplayName("テスト04 「よくある質問」リンクからよくある質問画面を別タブに開く")
 	void test04() {
-		// TODO ここに追加
+		//よくある質問を取得
+		webDriver.findElement(By.xpath("//a[text()='よくある質問']")).click();
+		//別タブに切り替え
+		Object[] windowHandles = webDriver.getWindowHandles().toArray();
+		webDriver.switchTo().window((String) windowHandles[1]);
+		//エビデンス取得・テスト
+		webDriver.manage().timeouts().implicitlyWait(WAIT_TEN_SECOND, TimeUnit.SECONDS);
+		getEvidence(new Object() {
+		}, "beforeClickFAQ_1");
+		String nowURL = webDriver.getCurrentUrl();
+		assertEquals(nowURL, LMS_FAQ_URL);
 	}
 
 	@Test
 	@Order(5)
 	@DisplayName("テスト05 カテゴリ検索で該当カテゴリの検索結果だけ表示")
 	void test05() {
-		// TODO ここに追加
+		//【研修関係】を押下
+		webDriver.findElement(By.xpath("//a[contains(@href, 'frequentlyAskedQuestionCategoryId=1')]")).click();
+		//frequentlyAskedQuestionCategoryId=1での検索結果を取得
+		checkCategoryIdTest(1);
+		webDriver.manage().timeouts().implicitlyWait(WAIT_TEN_SECOND, TimeUnit.SECONDS);
+		getEvidence(new Object() {
+		}, "afterClickSearch_1");
+		
+		//【人材開発支援助成金】を押下
+		webDriver.findElement(By.xpath("//a[contains(@href, 'frequentlyAskedQuestionCategoryId=2')]")).click();
+		//frequentlyAskedQuestionCategoryId=1での検索結果を取得
+		checkCategoryIdTest(2);
+		webDriver.manage().timeouts().implicitlyWait(WAIT_TEN_SECOND, TimeUnit.SECONDS);
+		getEvidence(new Object() {
+		}, "afterClickSearch_2");
+
+		//【遠隔研修】を押下
+		webDriver.findElement(By.xpath("//a[contains(@href, 'frequentlyAskedQuestionCategoryId=3')]")).click();
+		//frequentlyAskedQuestionCategoryId=1での検索結果を取得
+		checkCategoryIdTest(3);
+		webDriver.manage().timeouts().implicitlyWait(WAIT_TEN_SECOND, TimeUnit.SECONDS);
+		getEvidence(new Object() {
+		}, "afterClickSearch_3");
+		
 	}
 
 	@Test
 	@Order(6)
 	@DisplayName("テスト06 検索結果の質問をクリックしその回答を表示")
 	void test06() {
-		// TODO ここに追加
+		//検索結果に検索した文字列が含まれるかチェック
+		WebDriverUtils.scrollTo("0");
+		//【研修関係】を押下
+		webDriver.findElement(By.xpath("//a[contains(@href, 'frequentlyAskedQuestionCategoryId=1')]")).click();
+		WebDriverUtils.scrollByClassName("well");
+		List<WebElement> resultList = webDriver.findElements(By.tagName("dl"));
+		for (WebElement result : resultList) {
+			result.click();
+			int height = result.getSize().getHeight();
+			WebDriverUtils.scrollBy(String.valueOf(height));
+			//回答をクリックしたときの文字列が取得できるかチェック
+			String text = result.findElement(By.tagName("dd")).getText();
+			assertNotNull(text);
+		}
+		webDriver.manage().timeouts().implicitlyWait(WAIT_TEN_SECOND, TimeUnit.SECONDS);
+		getEvidence(new Object() {
+		}, "afterClickSearchResults");
 	}
 
+	
+	public void checkCategoryIdTest(Integer frequentlyAskedQuestionCategoryId) {
+		FaqSearchForm faqSearchForm = new FaqSearchForm();
+		faqSearchForm.setFrequentlyAskedQuestionCategoryId(frequentlyAskedQuestionCategoryId);
+		List<FaqDto> searchResults = faqService.getFaqDtoList(faqSearchForm);
+		List<WebElement> resultList = webDriver.findElements(By.tagName("dl"));
+		//検索結果が該当カテゴリに合致するか確認
+		for (FaqDto searchResult : searchResults) {
+			WebDriverUtils.scrollTo("0");
+			WebDriverUtils.scrollByClassName("well");
+			boolean matchFlg = false;
+			//検索結果に一致するかチェック
+			for (WebElement result : resultList) {
+				if (searchResult.getQuestion().equals(result.getText().substring(2))) {
+					matchFlg = true;
+				}
+				int height = result.getSize().getHeight();
+				WebDriverUtils.scrollBy(String.valueOf(height));
+			}
+			assertTrue(matchFlg);
+		}
+	}
 }

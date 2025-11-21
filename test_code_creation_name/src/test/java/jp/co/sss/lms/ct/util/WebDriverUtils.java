@@ -11,6 +11,7 @@ import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.OutputType;
 import org.openqa.selenium.TakesScreenshot;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
@@ -36,7 +37,7 @@ public class WebDriverUtils {
 		System.setProperty(DRIVER_TYPE, DRIVER_EXE_PATH);
 		webDriver = new ChromeDriver();
 	}
-	
+
 	/**
 	 * 待機時間設定
 	 * @return Webドライバ
@@ -44,7 +45,7 @@ public class WebDriverUtils {
 	public static void setWaitTime() {
 		wait = new WebDriverWait(webDriver, Duration.ofSeconds(WAIT_TEN_SECOND));
 	}
-	
+
 	/**
 	 * インスタンス終了
 	 */
@@ -59,10 +60,10 @@ public class WebDriverUtils {
 	public static void goTo(String url) {
 		webDriver.get(url);
 		pageLoadTimeout(WAIT_FIVE_SECOND);
-		 // ブラウザウィンドウを最大化
+		// ブラウザウィンドウを最大化
 		webDriver.manage().window().maximize();
 	}
-	
+
 	/**
 	 * ページロードタイムアウト設定
 	 * @param second
@@ -70,7 +71,7 @@ public class WebDriverUtils {
 	public static void pageLoadTimeout(int second) {
 		webDriver.manage().timeouts().pageLoadTimeout(Duration.ofSeconds(second));
 	}
-	
+
 	/**
 	 * 要素の可視性タイムアウト設定
 	 * @param locater
@@ -80,7 +81,7 @@ public class WebDriverUtils {
 		WebDriverWait wait = new WebDriverWait(webDriver, Duration.ofSeconds(second));
 		wait.until(ExpectedConditions.visibilityOfElementLocated(locater));
 	}
-	
+
 	/**
 	 * 指定ピクセル分だけスクロール
 	 * @param pixel
@@ -89,13 +90,19 @@ public class WebDriverUtils {
 		((JavascriptExecutor) webDriver).executeScript("window.scrollBy(0," + pixel + ");");
 	}
 
-	
 	/**
 	 * 指定位置までスクロール
 	 * @param pixel
 	 */
 	public static void scrollTo(String pixel) {
 		((JavascriptExecutor) webDriver).executeScript("window.scrollTo(0," + pixel + ");");
+	}
+
+	//検索結果欄にスクロールするために使用する要素
+	public static void scrollByClassName(String str) {
+		WebElement searchBoxElem = webDriver.findElement(By.className(str));
+		int searchBoxheight = searchBoxElem.getSize().getHeight();
+		WebDriverUtils.scrollBy(String.valueOf(searchBoxheight));
 	}
 
 	/**
