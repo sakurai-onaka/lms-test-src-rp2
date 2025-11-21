@@ -136,20 +136,23 @@ public class Case05 {
 
 		//検索結果に検索した文字列が含まれるかチェック
 		List<WebElement> resultList = webDriver.findElements(By.tagName("dl"));
-		int roopCount = 0;
 		for (WebElement result : resultList) {
-			roopCount++;
-			result.click();
 			int height = result.getSize().getHeight();
 			WebDriverUtils.scrollBy(String.valueOf(height));
-			webDriver.manage().timeouts().implicitlyWait(WAIT_TEN_SECOND, TimeUnit.SECONDS);
-			getEvidence(new Object() {
-			}, "result_" + roopCount);
-			//先頭文字のQ.とA.を削除する。
 			String sumText = result.findElement(By.tagName("dt")).getText().substring(2);
-			sumText += result.findElement(By.tagName("dd")).getText().substring(2);
 			assertTrue(sumText.contains(SEARCH_KEYWORD));
 		}
+		
+		/*		List<WebElement> resultList = webDriver.findElements(By.tagName("dl"));
+				for (WebElement result : resultList) {
+					result.click();
+					int height = result.getSize().getHeight();
+					WebDriverUtils.scrollBy(String.valueOf(height));
+					//先頭文字のQ.とA.を削除する。
+					String sumText = result.findElement(By.tagName("dt")).getText().substring(2);
+					sumText += result.findElement(By.tagName("dd")).getText().substring(2);
+					assertTrue(sumText.contains(SEARCH_KEYWORD));
+				}*/
 	}
 
 	@Test
