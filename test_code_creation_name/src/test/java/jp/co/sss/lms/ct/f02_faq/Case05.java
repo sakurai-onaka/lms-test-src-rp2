@@ -142,17 +142,6 @@ public class Case05 {
 			String sumText = result.findElement(By.tagName("dt")).getText().substring(2);
 			assertTrue(sumText.contains(SEARCH_KEYWORD));
 		}
-		
-		/*		List<WebElement> resultList = webDriver.findElements(By.tagName("dl"));
-				for (WebElement result : resultList) {
-					result.click();
-					int height = result.getSize().getHeight();
-					WebDriverUtils.scrollBy(String.valueOf(height));
-					//先頭文字のQ.とA.を削除する。
-					String sumText = result.findElement(By.tagName("dt")).getText().substring(2);
-					sumText += result.findElement(By.tagName("dd")).getText().substring(2);
-					assertTrue(sumText.contains(SEARCH_KEYWORD));
-				}*/
 	}
 
 	@Test

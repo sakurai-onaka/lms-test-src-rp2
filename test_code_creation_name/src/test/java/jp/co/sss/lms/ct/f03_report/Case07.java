@@ -92,6 +92,8 @@ public class Case07 {
 		webDriver.manage().timeouts().implicitlyWait(WAIT_TEN_SECOND, TimeUnit.SECONDS);
 		getEvidence(new Object() {
 		}, "sectionDetail");
+		String nowURL = webDriver.getCurrentUrl();
+		assertEquals(nowURL, LMS_SECTION_DETAIL_URL);
 	}
 
 	@Test
@@ -102,6 +104,8 @@ public class Case07 {
 		webDriver.manage().timeouts().implicitlyWait(WAIT_TEN_SECOND, TimeUnit.SECONDS);
 		getEvidence(new Object() {
 		}, "transitionReportRegist");
+		String nowURL = webDriver.getCurrentUrl();
+		assertEquals(nowURL, LMS_REPORT_REGIST_URL);
 	}
 
 	@Test
@@ -116,6 +120,8 @@ public class Case07 {
 		webDriver.manage().timeouts().implicitlyWait(WAIT_TEN_SECOND, TimeUnit.SECONDS);
 		getEvidence(new Object() {
 		}, "afterReportRegist");
+		WebElement targetElem = webDriver.findElement(By.xpath(".//input[contains(@value,'提出済み日報')]"));
+		assertTrue(targetElem.getAttribute("value").contains("提出済み日報"));
 	}
 
 }

@@ -6,6 +6,9 @@ public class ConstantTestValue {
 	public static final String LMS_COURSE_DETAIL_URL = "http://localhost:8080/lms/course/detail";
 	public static final String LMS_HELP_URL = "http://localhost:8080/lms/help";
 	public static final String LMS_FAQ_URL = "http://localhost:8080/lms/faq";
+	public static final String LMS_SECTION_DETAIL_URL = "http://localhost:8080/lms/section/detail";
+	public static final String LMS_REPORT_REGIST_URL = "http://localhost:8080/lms/report/regist";
+	public static final String LMS_LMS_USER_DETAIL_URL = "http://localhost:8080/lms/user/detail";
 	public static final Integer WAIT_FIVE_SECOND = 5;
 	public static final Integer WAIT_TEN_SECOND = 10;
 	public static final String HTML_TAGNAME_DIV = "div";
