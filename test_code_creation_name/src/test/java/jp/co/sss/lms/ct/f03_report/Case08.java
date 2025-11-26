@@ -84,7 +84,7 @@ public class Case08 {
 		List<WebElement> trElems = webDriver.findElements(By.xpath("//table/tbody/tr"));
 		WebElement targetElem = null;
 		for (WebElement trElem : trElems) {
-			if (trElem.getText().contains("提出済み")) {
+			if (trElem.getText().contains("2022年10月2日(日)")) {
 				targetElem = trElem;
 				break;
 			}
@@ -102,8 +102,10 @@ public class Case08 {
 	@Order(4)
 	@DisplayName("テスト04 「確認する」ボタンを押下しレポート登録画面に遷移")
 	void test04() {
-		webDriver.findElement(By.xpath("//input[contains(@value,'日報')]")).click();
+		WebDriverUtils.scrollBy("1000");
+		webDriver.findElement(By.xpath("//input[contains(@value,'週報')]")).click();
 		webDriver.manage().timeouts().implicitlyWait(WAIT_TEN_SECOND, TimeUnit.SECONDS);
+		WebDriverUtils.scrollBy("1000");
 		getEvidence(new Object() {
 		}, "transitionReportRegist");
 		String nowURL = webDriver.getCurrentUrl();
@@ -114,7 +116,9 @@ public class Case08 {
 	@Order(5)
 	@DisplayName("テスト05 報告内容を修正して「提出する」ボタンを押下しセクション詳細画面に遷移")
 	void test05() {
-		WebElement textElem = webDriver.findElement(By.tagName("textarea"));
+		
+		WebElement textElem = webDriver.findElement(By.id("content_1"));
+		WebDriverUtils.scrollBy("1000");
 		textElem.clear();
 		textElem.sendKeys("修正後");
 		getEvidence(new Object() {
@@ -148,7 +152,7 @@ public class Case08 {
 		List<WebElement> trElems = webDriver.findElements(By.xpath("//table/tbody/tr"));
 		WebElement targetElem = null;
 		for (WebElement trElem : trElems) {
-			if (trElem.getText().contains("2022年10月1日") && trElem.getText().contains("日報")) {
+			if (trElem.getText().contains("2022年10月2日") && trElem.getText().contains("週報")) {
 				targetElem = trElem;
 				break;
 			}
