@@ -1,8 +1,14 @@
 package jp.co.sss.lms.ct.f05_exam;
 
+import static jp.co.sss.lms.ct.util.ConstantTestValue.*;
 import static jp.co.sss.lms.ct.util.WebDriverUtils.*;
+import static org.junit.jupiter.api.Assertions.*;
 
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.Date;
+import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
@@ -11,6 +17,11 @@ import org.junit.jupiter.api.MethodOrderer.OrderAnnotation;
 import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestMethodOrder;
+import org.openqa.selenium.Alert;
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebElement;
+
+import jp.co.sss.lms.ct.util.WebDriverUtils;
 
 /**
  * 結合テスト 試験実施機能
@@ -40,56 +51,146 @@ public class Case13 {
 	@Order(1)
 	@DisplayName("テスト01 トップページURLでアクセス")
 	void test01() {
-		// TODO ここに追加
+		goTo(LMS_LOGIN_URL);
+		// 各画面表示時に10秒待機する
+		webDriver.manage().timeouts().implicitlyWait(WAIT_TEN_SECOND, TimeUnit.SECONDS);
+		getEvidence(new Object() {
+		}, "transitionLogin_1");
+		String nowURL = webDriver.getCurrentUrl();
+		assertEquals(nowURL, LMS_LOGIN_URL);
 	}
 
 	@Test
 	@Order(2)
 	@DisplayName("テスト02 初回ログイン済みの受講生ユーザーでログイン")
 	void test02() {
-		// TODO ここに追加
+		//要素取得
+		WebElement loginId = webDriver.findElement(By.name("loginId"));
+		WebElement password = webDriver.findElement(By.name("password"));
+		WebElement loginButton = webDriver.findElement(By.xpath("//input[@value='ログイン']"));
+
+		//要素入力
+		loginId.sendKeys(EXIST_STUDENT_ID);
+		password.sendKeys(EXIST_STUDENT_PASS);
+		webDriver.manage().timeouts().implicitlyWait(WAIT_TEN_SECOND, TimeUnit.SECONDS);
+		getEvidence(new Object() {
+		}, "beforeLogin_1");
+		loginButton.click();
+		webDriver.manage().timeouts().implicitlyWait(WAIT_TEN_SECOND, TimeUnit.SECONDS);
+		getEvidence(new Object() {
+		}, "afterLogin_2");
+
+		String nowURL = webDriver.getCurrentUrl();
+		assertEquals(nowURL, LMS_COURSE_DETAIL_URL);
 	}
 
 	@Test
 	@Order(3)
 	@DisplayName("テスト03 「試験有」の研修日の「詳細」ボタンを押下しセクション詳細画面に遷移")
 	void test03() {
-		// TODO ここに追加
+		List<WebElement> trElems = webDriver.findElements(By.xpath("//table/tbody/tr"));
+		WebElement targetElem = null;
+		for (WebElement trElem : trElems) {
+			if (trElem.getText().contains("試験有")) {
+				targetElem = trElem;
+				break;
+			}
+		}
+		targetElem = targetElem.findElement(By.xpath(".//input[@value='詳細']"));
+		targetElem.submit();
+		webDriver.manage().timeouts().implicitlyWait(WAIT_TEN_SECOND, TimeUnit.SECONDS);
+		getEvidence(new Object() {
+		}, "sectionDetail");
+		String nowURL = webDriver.getCurrentUrl();
+		assertEquals(nowURL, LMS_SECTION_DETAIL_URL);
 	}
 
 	@Test
 	@Order(4)
 	@DisplayName("テスト04 「本日の試験」エリアの「詳細」ボタンを押下し試験開始画面に遷移")
 	void test04() {
-		// TODO ここに追加
+		webDriver.findElement(By.xpath("//input[@value='詳細']")).click();
+		webDriver.manage().timeouts().implicitlyWait(WAIT_TEN_SECOND, TimeUnit.SECONDS);
+		getEvidence(new Object() {
+		}, "examStart");
+		String nowURL = webDriver.getCurrentUrl();
+		assertEquals(nowURL, LMS_LMS_EXAM_START_URL);
 	}
 
 	@Test
 	@Order(5)
 	@DisplayName("テスト05 「試験を開始する」ボタンを押下し試験問題画面に遷移")
 	void test05() {
-		// TODO ここに追加
+		webDriver.findElement(By.xpath("//input[@value='試験を開始する']")).click();
+		webDriver.manage().timeouts().implicitlyWait(WAIT_TEN_SECOND, TimeUnit.SECONDS);
+		getEvidence(new Object() {
+		}, "examQuestion");
+		String nowURL = webDriver.getCurrentUrl();
+		assertEquals(nowURL, LMS_LMS_EXAM_QUESTION_URL);
 	}
 
 	@Test
 	@Order(6)
 	@DisplayName("テスト06 未回答の状態で「確認画面へ進む」ボタンを押下し試験回答確認画面に遷移")
 	void test06() {
-		// TODO ここに追加
+		WebDriverUtils.scrollBy("5000");
+		webDriver.manage().timeouts().implicitlyWait(WAIT_TEN_SECOND, TimeUnit.SECONDS);
+		getEvidence(new Object() {
+		}, "examQuestion");
+		webDriver.findElement(By.xpath("//input[@value='確認画面へ進む']")).click();
+		webDriver.manage().timeouts().implicitlyWait(WAIT_TEN_SECOND, TimeUnit.SECONDS);
+		getEvidence(new Object() {
+		}, "examQuestion");
+		String nowURL = webDriver.getCurrentUrl();
+		assertEquals(nowURL, LMS_LMS_EXAM_ANSWERCHECK_URL);
 	}
 
 	@Test
 	@Order(7)
 	@DisplayName("テスト07 「回答を送信する」ボタンを押下し試験結果画面に遷移")
 	void test07() throws InterruptedException {
-		// TODO ここに追加
+		WebDriverUtils.scrollBy("5000");
+		webDriver.manage().timeouts().implicitlyWait(WAIT_TEN_SECOND, TimeUnit.SECONDS);
+		getEvidence(new Object() {
+		}, "beforeExamAnswerCheck");
+		//回答時間が1秒未満だとDBの回答時間がnull値になりシステムエラーが発生するためその対策
+		Thread.sleep(1000);
+		webDriver.findElement(By.id("sendButton")).click();
+		Alert confirm = webDriver.switchTo().alert();
+		confirm.accept();
+		webDriver.manage().timeouts().implicitlyWait(WAIT_TEN_SECOND, TimeUnit.SECONDS);
+		getEvidence(new Object() {
+		}, "afterExamAnswerCheck");
+		String nowURL = webDriver.getCurrentUrl();
+		assertEquals(nowURL, LMS_LMS_EXAM_RESULT_URL);
 	}
 
 	@Test
 	@Order(8)
 	@DisplayName("テスト08 「戻る」ボタンを押下し試験開始画面に遷移後当該試験の結果が反映される")
 	void test08() {
-		// TODO ここに追加
+		WebDriverUtils.scrollBy("5000");
+		webDriver.manage().timeouts().implicitlyWait(WAIT_TEN_SECOND, TimeUnit.SECONDS);
+		getEvidence(new Object() {
+		}, "beforeExamResult");
+		webDriver.findElement(By.xpath("//input[@value='戻る']")).submit();
+		webDriver.manage().timeouts().implicitlyWait(WAIT_TEN_SECOND, TimeUnit.SECONDS);
+		getEvidence(new Object() {
+		}, "afterExamAnswerResult");
+		
+		//本日の取得
+		LocalDate today = LocalDate.now();
+		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy年MM月dd日");
+		String todayString = today.format(formatter);
+		//テストコード実行時の日付と合致するテスト結果があるか確認
+		List<WebElement> tdElems = webDriver.findElements(By.xpath("//table/tbody/tr"));
+		WebElement targetElem = null;	
+		for (WebElement tdElem : tdElems) {
+			if (tdElem.getText().contains(todayString) && tdElem.getText().contains("0.0点")) {
+				targetElem = tdElem;
+				break;
+			}
+		}
+		assertNotNull(targetElem);
 	}
-
 }
