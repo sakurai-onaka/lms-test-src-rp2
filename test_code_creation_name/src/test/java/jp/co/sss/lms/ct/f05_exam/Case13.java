@@ -133,6 +133,8 @@ public class Case13 {
 	@Order(6)
 	@DisplayName("テスト06 未回答の状態で「確認画面へ進む」ボタンを押下し試験回答確認画面に遷移")
 	void test06() {
+		WebDriverUtils.getExamEvidence(new Object() {
+		}, "examQuestion_");
 		WebDriverUtils.scrollBy("5000");
 		webDriver.manage().timeouts().implicitlyWait(WAIT_TEN_SECOND, TimeUnit.SECONDS);
 		getEvidence(new Object() {
@@ -149,6 +151,8 @@ public class Case13 {
 	@Order(7)
 	@DisplayName("テスト07 「回答を送信する」ボタンを押下し試験結果画面に遷移")
 	void test07() throws InterruptedException {
+		getExamEvidence(new Object() {
+		}, "examCheck_");
 		WebDriverUtils.scrollBy("5000");
 		webDriver.manage().timeouts().implicitlyWait(WAIT_TEN_SECOND, TimeUnit.SECONDS);
 		getEvidence(new Object() {
@@ -158,9 +162,8 @@ public class Case13 {
 		webDriver.findElement(By.id("sendButton")).click();
 		Alert confirm = webDriver.switchTo().alert();
 		confirm.accept();
-		webDriver.manage().timeouts().implicitlyWait(WAIT_TEN_SECOND, TimeUnit.SECONDS);
-		getEvidence(new Object() {
-		}, "afterExamAnswerCheck");
+		getExamEvidence(new Object() {
+		}, "examAnswer_");
 		String nowURL = webDriver.getCurrentUrl();
 		assertEquals(nowURL, LMS_LMS_EXAM_RESULT_URL);
 	}

@@ -5,6 +5,8 @@ import static jp.co.sss.lms.ct.util.ConstantTestValue.*;
 import java.io.File;
 import java.io.IOException;
 import java.time.Duration;
+import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
@@ -135,5 +137,26 @@ public class WebDriverUtils {
 			e.printStackTrace();
 		}
 	}
+
+	/**
+	 * 試験問題答案、確認、結果エビデンス取得
+	 * @param instance
+	 * @param suffix
+	 */
+	public static void getExamEvidence(Object instance,String suffix) {
+		//
+		List<WebElement> questionElems = webDriver.findElements(By.className("panel-default"));
+
+		int count = 1;
+		for (WebElement questionElem : questionElems) {
+			webDriver.manage().timeouts().implicitlyWait(WAIT_TEN_SECOND, TimeUnit.SECONDS);
+			getEvidence(instance, suffix + count);
+			int searchBoxheight = questionElem.getSize().getHeight();
+			searchBoxheight += 20;
+			WebDriverUtils.scrollBy(String.valueOf(searchBoxheight));
+			count++;
+		}
+	}
+
 
 }

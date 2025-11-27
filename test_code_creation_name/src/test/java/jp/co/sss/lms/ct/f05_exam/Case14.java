@@ -178,6 +178,9 @@ public class Case14 {
 				break;
 
 			}
+			webDriver.manage().timeouts().implicitlyWait(WAIT_TEN_SECOND, TimeUnit.SECONDS);
+			getEvidence(new Object() {
+			}, "examQuestion_" + count);
 
 			int searchBoxheight = questionElem.getSize().getHeight();
 			searchBoxheight += 20;
@@ -199,6 +202,8 @@ public class Case14 {
 	@Order(7)
 	@DisplayName("テスト07 「回答を送信する」ボタンを押下し試験結果画面に遷移")
 	void test07() throws InterruptedException {
+		getExamEvidence(new Object() {
+		}, "examCheck_");
 		WebDriverUtils.scrollBy("5000");
 		webDriver.manage().timeouts().implicitlyWait(WAIT_TEN_SECOND, TimeUnit.SECONDS);
 		getEvidence(new Object() {
@@ -208,9 +213,8 @@ public class Case14 {
 		webDriver.findElement(By.id("sendButton")).click();
 		Alert confirm = webDriver.switchTo().alert();
 		confirm.accept();
-		webDriver.manage().timeouts().implicitlyWait(WAIT_TEN_SECOND, TimeUnit.SECONDS);
-		getEvidence(new Object() {
-		}, "afterExamAnswerCheck");
+		getExamEvidence(new Object() {
+		}, "examAnswer_");
 		String nowURL = webDriver.getCurrentUrl();
 		assertEquals(nowURL, LMS_LMS_EXAM_RESULT_URL);
 	}
