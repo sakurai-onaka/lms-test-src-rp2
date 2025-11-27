@@ -207,7 +207,7 @@ public class Case12 {
 		Select endMinute = new Select(webDriver.findElement(By.id("endMinute0")));
 		Select blankTime = new Select(webDriver.findElement(By.name("attendanceList[0].blankTime")));
 		WebElement note = webDriver.findElement(By.name("attendanceList[0].note"));
-		note.sendKeys("]dy*,t?#Upuy*@8%8!j[Qt2]ZIZxCR9'$Q1|j0f[z'\".e;u?a>sS.ihv[jl=E#vVaxqOK+k@o~:XgiqX|&T}'1?s]XHL:C|h2ZM*a");
+		note.sendKeys(HUNDRED_WORD);
 		startHour.selectByVisibleText("09");
 		startMinute.selectByVisibleText("00");
 		endHour.selectByVisibleText("18");
