@@ -237,7 +237,7 @@ public class Case09 {
 		AchievementLevelGoal.clear();
 		AchievementLevelGoal.sendKeys("5");
 		Impression.clear();
-		Impression.sendKeys("修正後");
+		Impression.sendKeys(TWO_THOUSAND_WORD);
 		lookingBackWeek.clear();
 		lookingBackWeek.sendKeys(TWO_THOUSAND_WORD);
 		
@@ -252,5 +252,4 @@ public class Case09 {
 		getEvidence(new Object() {
 		}, "afterAchievementLevelGoalOver2000");
 	}
-
 }
