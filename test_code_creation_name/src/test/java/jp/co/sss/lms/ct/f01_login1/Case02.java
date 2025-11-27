@@ -56,9 +56,9 @@ public class Case02 {
 	@DisplayName("テスト02 DBに登録されていないユーザーでログイン")
 	void test02() {
 		//要素取得
-		WebElement loginId = webDriver.findElement(By.name("loginId"));
-		WebElement password = webDriver.findElement(By.name("password"));
-		WebElement loginButton = webDriver.findElement(By.xpath("//input[@value='ログイン']"));
+		WebElement loginId = webDriver.findElement(By.name(HTML_NAME_LOGINID));
+		WebElement password = webDriver.findElement(By.name(HTML_NAME_PASS));
+		WebElement loginButton = webDriver.findElement(By.xpath(HTML_XPATH_INPUT_VALUE_LOGIN));
 
 		//要素入力
 		loginId.sendKeys(NO_EXIST_STUDENT);

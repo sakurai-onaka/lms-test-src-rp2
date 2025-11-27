@@ -19,7 +19,12 @@ public class ConstantTestValue {
 	public static final String LMS_LMS_EXAM_RESULT_URL = "http://localhost:8080/lms/exam/result";
 	public static final Integer WAIT_FIVE_SECOND = 5;
 	public static final Integer WAIT_TEN_SECOND = 10;
+	
 	public static final String HTML_TAGNAME_DIV = "div";
+	public static final String HTML_NAME_LOGINID = "loginId";
+	public static final String HTML_NAME_PASS = "password";
+	public static final String HTML_XPATH_INPUT_VALUE_LOGIN = "//input[@value='ログイン']";
+	
 	public static final String DRIVER_TYPE = "webdriver.chrome.driver";
 	public static final String DRIVER_EXE_PATH = "lib/chromedriver.exe";
 	public static final String NO_EXIST_STUDENT = "noExistStudent";
