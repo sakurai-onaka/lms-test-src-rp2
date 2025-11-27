@@ -92,7 +92,7 @@ public class Case06 {
 	@DisplayName("テスト03 上部メニューの「ヘルプ」リンクからヘルプ画面に遷移")
 	void test03() {
 		//要素取得
-		WebElement functionButton = webDriver.findElement(By.className("dropdown-toggle"));
+		WebElement functionButton = webDriver.findElement(By.className(HTML_CLASSNAME_DROPDOWN_TOGGLE));
 		functionButton.click();
 		webDriver.manage().timeouts().implicitlyWait(WAIT_TEN_SECOND, TimeUnit.SECONDS);
 		getEvidence(new Object() {
@@ -111,10 +111,10 @@ public class Case06 {
 	@DisplayName("テスト04 「よくある質問」リンクからよくある質問画面を別タブに開く")
 	void test04() {
 		//よくある質問を取得
-		webDriver.findElement(By.xpath("//a[text()='よくある質問']")).click();
+		webDriver.findElement(By.xpath(HTML_XPATH_A_TEXT_FAQ)).click();
 		//別タブに切り替え
 		Object[] windowHandles = webDriver.getWindowHandles().toArray();
-		webDriver.switchTo().window((String) windowHandles[1]);
+		webDriver.switchTo().window((String) windowHandles[SEPARATE_TAB]);
 		//エビデンス取得・テスト
 		webDriver.manage().timeouts().implicitlyWait(WAIT_TEN_SECOND, TimeUnit.SECONDS);
 		getEvidence(new Object() {
@@ -128,25 +128,25 @@ public class Case06 {
 	@DisplayName("テスト05 カテゴリ検索で該当カテゴリの検索結果だけ表示")
 	void test05() {
 		//【研修関係】を押下
-		webDriver.findElement(By.xpath("//a[contains(@href, 'frequentlyAskedQuestionCategoryId=1')]")).click();
+		webDriver.findElement(By.xpath(HTML_XPATH_A_HREF_CONTAINS_FAQ_CATE_1)).click();
 		//frequentlyAskedQuestionCategoryId=1での検索結果を取得
-		checkCategoryIdTest(1);
+		checkCategoryIdTest(CATEGORYID_1);
 		webDriver.manage().timeouts().implicitlyWait(WAIT_TEN_SECOND, TimeUnit.SECONDS);
 		getEvidence(new Object() {
 		}, "afterClickSearch_1");
 		
 		//【人材開発支援助成金】を押下
-		webDriver.findElement(By.xpath("//a[contains(@href, 'frequentlyAskedQuestionCategoryId=2')]")).click();
+		webDriver.findElement(By.xpath(HTML_XPATH_A_HREF_CONTAINS_FAQ_CATE_2)).click();
 		//frequentlyAskedQuestionCategoryId=1での検索結果を取得
-		checkCategoryIdTest(2);
+		checkCategoryIdTest(CATEGORYID_2);
 		webDriver.manage().timeouts().implicitlyWait(WAIT_TEN_SECOND, TimeUnit.SECONDS);
 		getEvidence(new Object() {
 		}, "afterClickSearch_2");
 
 		//【遠隔研修】を押下
-		webDriver.findElement(By.xpath("//a[contains(@href, 'frequentlyAskedQuestionCategoryId=3')]")).click();
+		webDriver.findElement(By.xpath(HTML_XPATH_A_HREF_CONTAINS_FAQ_CATE_3)).click();
 		//frequentlyAskedQuestionCategoryId=1での検索結果を取得
-		checkCategoryIdTest(3);
+		checkCategoryIdTest(CATEGORYID_3);
 		webDriver.manage().timeouts().implicitlyWait(WAIT_TEN_SECOND, TimeUnit.SECONDS);
 		getEvidence(new Object() {
 		}, "afterClickSearch_3");
@@ -158,17 +158,17 @@ public class Case06 {
 	@DisplayName("テスト06 検索結果の質問をクリックしその回答を表示")
 	void test06() {
 		//検索結果に検索した文字列が含まれるかチェック
-		WebDriverUtils.scrollTo("0");
+		WebDriverUtils.scrollTo(ZERO_PIXEL);
 		//【研修関係】を押下
-		webDriver.findElement(By.xpath("//a[contains(@href, 'frequentlyAskedQuestionCategoryId=1')]")).click();
-		WebDriverUtils.scrollByClassName("well");
-		List<WebElement> resultList = webDriver.findElements(By.tagName("dl"));
+		webDriver.findElement(By.xpath(HTML_XPATH_A_HREF_CONTAINS_FAQ_CATE_1)).click();
+		WebDriverUtils.scrollByClassName(HTML_CLASSNAME_WELL);
+		List<WebElement> resultList = webDriver.findElements(By.tagName(HTML_TAGNAME_DL));
 		for (WebElement result : resultList) {
 			result.click();
 			int height = result.getSize().getHeight();
 			WebDriverUtils.scrollBy(String.valueOf(height));
 			//回答をクリックしたときの文字列が取得できるかチェック
-			String text = result.findElement(By.tagName("dd")).getText();
+			String text = result.findElement(By.tagName(HTML_TAGNAME_DD)).getText();
 			assertNotNull(text);
 		}
 		webDriver.manage().timeouts().implicitlyWait(WAIT_TEN_SECOND, TimeUnit.SECONDS);
@@ -184,8 +184,8 @@ public class Case06 {
 		List<WebElement> resultList = webDriver.findElements(By.tagName("dl"));
 		//検索結果が該当カテゴリに合致するか確認
 		for (FaqDto searchResult : searchResults) {
-			WebDriverUtils.scrollTo("0");
-			WebDriverUtils.scrollByClassName("well");
+			WebDriverUtils.scrollTo(ZERO_PIXEL);
+			WebDriverUtils.scrollByClassName(HTML_CLASSNAME_WELL);
 			boolean matchFlg = false;
 			//検索結果に一致するかチェック
 			for (WebElement result : resultList) {

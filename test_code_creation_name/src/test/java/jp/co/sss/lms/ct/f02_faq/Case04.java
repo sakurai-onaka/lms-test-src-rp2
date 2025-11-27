@@ -80,7 +80,7 @@ public class Case04 {
 	@DisplayName("テスト03 上部メニューの「ヘルプ」リンクからヘルプ画面に遷移")
 	void test03() {
 		//要素取得
-		WebElement functionButton = webDriver.findElement(By.className("dropdown-toggle"));
+		WebElement functionButton = webDriver.findElement(By.className(HTML_CLASSNAME_DROPDOWN_TOGGLE));
 		functionButton.click();
 		webDriver.manage().timeouts().implicitlyWait(WAIT_TEN_SECOND, TimeUnit.SECONDS);
 		getEvidence(new Object() {
@@ -99,10 +99,10 @@ public class Case04 {
 	@DisplayName("テスト04 「よくある質問」リンクからよくある質問画面を別タブに開く")
 	void test04() {
 		//よくある質問を取得
-		webDriver.findElement(By.xpath("//a[text()='よくある質問']")).click();
+		webDriver.findElement(By.xpath(HTML_XPATH_A_TEXT_FAQ)).click();
 		//別タブに切り替え
         Object[] windowHandles=webDriver.getWindowHandles().toArray();
-        webDriver.switchTo().window((String) windowHandles[1]);
+        webDriver.switchTo().window((String) windowHandles[SEPARATE_TAB]);
         //エビデンス取得・テスト
 		webDriver.manage().timeouts().implicitlyWait(WAIT_TEN_SECOND, TimeUnit.SECONDS);
 		getEvidence(new Object() {

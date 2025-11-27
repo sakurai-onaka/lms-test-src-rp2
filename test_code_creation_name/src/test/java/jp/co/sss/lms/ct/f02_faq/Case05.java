@@ -102,10 +102,10 @@ public class Case05 {
 	@DisplayName("テスト04 「よくある質問」リンクからよくある質問画面を別タブに開く")
 	void test04() {
 		//よくある質問を取得
-		webDriver.findElement(By.xpath("//a[text()='よくある質問']")).click();
+		webDriver.findElement(By.xpath(HTML_XPATH_A_TEXT_FAQ)).click();
 		//別タブに切り替え
 		Object[] windowHandles = webDriver.getWindowHandles().toArray();
-		webDriver.switchTo().window((String) windowHandles[1]);
+		webDriver.switchTo().window((String) windowHandles[SEPARATE_TAB]);
 		//エビデンス取得・テスト
 		webDriver.manage().timeouts().implicitlyWait(WAIT_TEN_SECOND, TimeUnit.SECONDS);
 		getEvidence(new Object() {
@@ -139,7 +139,7 @@ public class Case05 {
 		for (WebElement result : resultList) {
 			int height = result.getSize().getHeight();
 			WebDriverUtils.scrollBy(String.valueOf(height));
-			String sumText = result.findElement(By.tagName("dt")).getText().substring(2);
+			String sumText = result.findElement(By.tagName(HTML_TAGNAME_DT)).getText().substring(2);
 			assertTrue(sumText.contains(SEARCH_KEYWORD));
 		}
 	}
@@ -148,9 +148,9 @@ public class Case05 {
 	@Order(6)
 	@DisplayName("テスト06 「クリア」ボタン押下で入力したキーワードを消去")
 	void test06() {
-		WebDriverUtils.scrollTo("0");
-		WebElement keyword = webDriver.findElement(By.name("keyword"));
-		WebElement clearButton = webDriver.findElement(By.xpath("//input[@value='クリア']"));
+		WebDriverUtils.scrollTo(ZERO_PIXEL);
+		WebElement keyword = webDriver.findElement(By.name(HTML_NAME_KEYWORD));
+		WebElement clearButton = webDriver.findElement(By.xpath(HTML_XPATH_INPUT_VALUE_CLEAR));
 		getEvidence(new Object() {
 		}, "beforeClickClear_1");
 		clearButton.click();

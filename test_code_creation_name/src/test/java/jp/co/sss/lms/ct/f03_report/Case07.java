@@ -82,12 +82,12 @@ public class Case07 {
 		List<WebElement> trElems = webDriver.findElements(By.xpath("//table/tbody/tr"));
 		WebElement targetElem = null;
 		for (WebElement trElem : trElems) {
-			if (trElem.getText().contains("未提出")) {
+			if (trElem.getText().contains(NO_SUBMISSION)) {
 				targetElem = trElem;
 				break;
 			}
 		}
-		targetElem = targetElem.findElement(By.xpath(".//input[@value='詳細']"));
+		targetElem = targetElem.findElement(By.xpath(HTML_XPATH_CHILDELEM_INPUT_VALUE_DETALI));
 		targetElem.submit();
 		webDriver.manage().timeouts().implicitlyWait(WAIT_TEN_SECOND, TimeUnit.SECONDS);
 		getEvidence(new Object() {
@@ -100,7 +100,7 @@ public class Case07 {
 	@Order(4)
 	@DisplayName("テスト04 「提出する」ボタンを押下しレポート登録画面に遷移")
 	void test04() {
-		webDriver.findElement(By.xpath("//input[contains(@value,'日報')]")).click();
+		webDriver.findElement(By.xpath(HTML_XPATH_INPUT_VALUE_CONTAINS_DAILYREPO)).click();
 		webDriver.manage().timeouts().implicitlyWait(WAIT_TEN_SECOND, TimeUnit.SECONDS);
 		getEvidence(new Object() {
 		}, "transitionReportRegist");
@@ -112,16 +112,16 @@ public class Case07 {
 	@Order(5)
 	@DisplayName("テスト05 報告内容を入力して「提出する」ボタンを押下し確認ボタン名が更新される")
 	void test05() {
-		WebElement textElem = webDriver.findElement(By.tagName("textarea"));
-		textElem.sendKeys("abcdef50983k");
+		WebElement textElem = webDriver.findElement(By.tagName(HTML_TAGNAME_TEXTAREA));
+		textElem.sendKeys(DAILYREPO_CONTENT);
 		getEvidence(new Object() {
 		}, "BeforeReportRegist");
-		webDriver.findElement(By.xpath("//button[contains(text(),'提出する')]")).click();
+		webDriver.findElement(By.xpath(HTML_XPATH_BUTTON_TEXT_CONTAINS_SUBMISSION)).click();
 		webDriver.manage().timeouts().implicitlyWait(WAIT_TEN_SECOND, TimeUnit.SECONDS);
 		getEvidence(new Object() {
 		}, "afterReportRegist");
-		WebElement targetElem = webDriver.findElement(By.xpath(".//input[contains(@value,'提出済み日報')]"));
-		assertTrue(targetElem.getAttribute("value").contains("提出済み日報"));
+		WebElement targetElem = webDriver.findElement(By.xpath(HTML_XPATH_INPUT_VALUE_CONTAINS_SUBMITTED_DAILYREPO));
+		assertTrue(targetElem.getAttribute("value").contains(SUBMITTED_DAILYREPO));
 	}
 
 }
