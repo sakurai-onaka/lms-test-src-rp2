@@ -98,6 +98,8 @@ public class ConstantTestValue {
 	public static final String HTML_CLASSNAME_ERROR = "error";
 	public static final String HTML_CLASSNAME_UPDATEBUTTON = "update-button";
 	public static final String HTML_CLASSNAME_HELPINLINE = "help-inline";
+	
+	public static final String CSS_BACKGROUND_COLOR= "background-color";
 
 	public static final String DRIVER_TYPE = "webdriver.chrome.driver";
 	public static final String ZERO_PIXEL = "0";
@@ -134,6 +136,7 @@ public class ConstantTestValue {
 	public static final String ERROR_MSG_CANT_INPUT_BLANKTIME_MORE_THAN_WORKINGTIME = "* 中抜け時間が勤務時間を超えています。";
 	public static final String ERROR_MSG_CANT_INPUT_NOTE_MORE_THAN_ONEHUNDRED_WORD = "* 備考の長さが最大値(100)を超えています。";
 
+	public static final String ERROR_BACKGROUND_COLOR_RGBA = "rgba(255, 210, 210, 1)";
 	public static final int ATTENDANCE_INFO = 2;
 	public static final int LEVING_INFO = 3;
 	public static final String SEARCH_KEYWORD = "セルフ";

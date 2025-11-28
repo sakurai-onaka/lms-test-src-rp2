@@ -108,6 +108,8 @@ public class Case09 {
 		webDriver.manage().timeouts().implicitlyWait(WAIT_TEN_SECOND, TimeUnit.SECONDS);
 		getEvidence(new Object() {
 		}, "reportDetail");
+		String nowURL = webDriver.getCurrentUrl();
+		assertEquals(nowURL, LMS_REPORT_REGIST_URL);
 	}
 
 	@Test
@@ -118,7 +120,6 @@ public class Case09 {
 		Select comprehensionLevel = new Select(webDriver.findElement(By.id(HTML_ID_COMPREHENSION_LEVEL)));
 		learningContent.clear();
 		learningContent.sendKeys(BLANK);
-		//comprehensionLevel.clear();
 		comprehensionLevel.selectByVisibleText(COMPREHENSION_LEVEL_ONE);
 		webDriver.manage().timeouts().implicitlyWait(WAIT_TEN_SECOND, TimeUnit.SECONDS);
 		getEvidence(new Object() {
@@ -128,6 +129,10 @@ public class Case09 {
 		webDriver.manage().timeouts().implicitlyWait(WAIT_TEN_SECOND, TimeUnit.SECONDS);
 		getEvidence(new Object() {
 		}, "afterLearningContentNull");
+		// 背景色を取得
+		learningContent = webDriver.findElement(By.id(HTML_ID_LEANING_CONTENT));
+		String backgroundColor = learningContent.getCssValue(CSS_BACKGROUND_COLOR);
+		assertEquals(backgroundColor, ERROR_BACKGROUND_COLOR_RGBA);
 	}
 
 	@Test
@@ -148,6 +153,11 @@ public class Case09 {
 		webDriver.manage().timeouts().implicitlyWait(WAIT_TEN_SECOND, TimeUnit.SECONDS);
 		getEvidence(new Object() {
 		}, "afterComprehensionLevelNull");
+
+		// 背景色を取得
+		WebElement comprehensionLevelElem = webDriver.findElement(By.id(HTML_ID_COMPREHENSION_LEVEL));
+		String backgroundColor = comprehensionLevelElem.getCssValue(CSS_BACKGROUND_COLOR);
+		assertEquals(backgroundColor, ERROR_BACKGROUND_COLOR_RGBA);
 	}
 
 	@Test
@@ -170,6 +180,11 @@ public class Case09 {
 		webDriver.manage().timeouts().implicitlyWait(WAIT_TEN_SECOND, TimeUnit.SECONDS);
 		getEvidence(new Object() {
 		}, "afterAchievementLevelGoalWithoutNum");
+
+		// 背景色を取得
+		AchievementLevelGoal = webDriver.findElement(By.id(HTML_ID_CONTENT_ZERO));
+		String backgroundColor = AchievementLevelGoal.getCssValue(CSS_BACKGROUND_COLOR);
+		assertEquals(backgroundColor, ERROR_BACKGROUND_COLOR_RGBA);
 	}
 
 	@Test
@@ -192,6 +207,11 @@ public class Case09 {
 		webDriver.manage().timeouts().implicitlyWait(WAIT_TEN_SECOND, TimeUnit.SECONDS);
 		getEvidence(new Object() {
 		}, "afterAchievementLevelGoalOutBound");
+
+		// 背景色を取得
+		AchievementLevelGoal = webDriver.findElement(By.id(HTML_ID_CONTENT_ZERO));
+		String backgroundColor = AchievementLevelGoal.getCssValue(CSS_BACKGROUND_COLOR);
+		assertEquals(backgroundColor, ERROR_BACKGROUND_COLOR_RGBA);
 	}
 
 	@Test
@@ -218,6 +238,14 @@ public class Case09 {
 		webDriver.manage().timeouts().implicitlyWait(WAIT_TEN_SECOND, TimeUnit.SECONDS);
 		getEvidence(new Object() {
 		}, "afterAchievementLevelGoalNull");
+
+		// 背景色を取得
+		AchievementLevelGoal = webDriver.findElement(By.id(HTML_ID_CONTENT_ZERO));
+		Impression = webDriver.findElement(By.id(HTML_ID_CONTENT_ONE));
+		String backgroundColorAchievementLevelGoal = AchievementLevelGoal.getCssValue(CSS_BACKGROUND_COLOR);
+		String backgroundColorImpression = Impression.getCssValue(CSS_BACKGROUND_COLOR);
+		assertEquals(backgroundColorAchievementLevelGoal, ERROR_BACKGROUND_COLOR_RGBA);
+		assertEquals(backgroundColorImpression, ERROR_BACKGROUND_COLOR_RGBA);
 	}
 
 	@Test
@@ -251,5 +279,13 @@ public class Case09 {
 		webDriver.manage().timeouts().implicitlyWait(WAIT_TEN_SECOND, TimeUnit.SECONDS);
 		getEvidence(new Object() {
 		}, "afterAchievementLevelGoalOver2000");
+		
+		// 背景色を取得
+		Impression = webDriver.findElement(By.id(HTML_ID_CONTENT_ONE));
+		lookingBackWeek = webDriver.findElement(By.id(HTML_ID_CONTENT_TWO));
+		String backgroundColorImpression = Impression.getCssValue(CSS_BACKGROUND_COLOR);
+		String backgroundColorLookingBackWeek = lookingBackWeek.getCssValue(CSS_BACKGROUND_COLOR);
+		assertEquals(backgroundColorImpression, ERROR_BACKGROUND_COLOR_RGBA);
+		assertEquals(backgroundColorLookingBackWeek, ERROR_BACKGROUND_COLOR_RGBA);
 	}
 }
