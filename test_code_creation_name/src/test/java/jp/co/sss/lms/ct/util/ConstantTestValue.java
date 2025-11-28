@@ -1,6 +1,7 @@
 package jp.co.sss.lms.ct.util;
 
 public class ConstantTestValue {
+	/** URL */
 	public static final String LMS_LOGIN_URL = "http://localhost:8080/lms/";
 	public static final String LMS_RE_LOGIN_URL = "http://localhost:8080/lms/login";
 	public static final String LMS_COURSE_DETAIL_URL = "http://localhost:8080/lms/course/detail";
@@ -19,7 +20,9 @@ public class ConstantTestValue {
 	public static final String LMS_LMS_EXAM_RESULT_URL = "http://localhost:8080/lms/exam/result";
 	public static final Integer WAIT_FIVE_SECOND = 5;
 	public static final Integer WAIT_TEN_SECOND = 10;
+	public static final Integer WAIT_ONE_THOUSAND_MM_SECOND = 1000;
 
+	/** HTML */
 	public static final String HTML_TAGNAME_DIV = "div";
 	public static final String HTML_TAGNAME_DT = "dt";
 	public static final String HTML_TAGNAME_DL = "dl";
@@ -27,24 +30,87 @@ public class ConstantTestValue {
 	public static final String HTML_TAGNAME_TEXTAREA = "textarea";
 	public static final String HTML_NAME_LOGINID = "loginId";
 	public static final String HTML_NAME_PASS = "password";
-	public static final String HTML_NAME_KEYWORD = "password";
+	public static final String HTML_NAME_BLANKTIME_ZERO = "attendanceList[0].blankTime";
+	public static final String HTML_NAME_NOTE_ZERO = "attendanceList[0].note";
+	public static final String HTML_ID_SENDBUTTON = "sendButton";
+	public static final String HTML_ID_CONTENT_ZERO = "content_0";
+	public static final String HTML_ID_CONTENT_ONE = "content_1";
+	public static final String HTML_ID_CONTENT_TWO = "content_2";
+	public static final String HTML_ID_LEANING_CONTENT = "intFieldName_0";
+	public static final String HTML_ID_COMPREHENSION_LEVEL = "intFieldValue_0";
+	public static final String HTML_ID_ANSWER_ZERO_TWO = "answer-0-2";
+	public static final String HTML_ID_ANSWER_ONE_TWO = "answer-1-2";
+	public static final String HTML_ID_ANSWER_TWO_ZERO = "answer-2-0";
+	public static final String HTML_ID_ANSWER_THREE_ZERO = "answer-3-0";
+	public static final String HTML_ID_ANSWER_FOUR_ONE = "answer-4-1";
+	public static final String HTML_ID_ANSWER_FIVE_ONE = "answer-5-1";
+	public static final String HTML_ID_ANSWER_SIX_ZERO = "answer-6-0";
+	public static final String HTML_ID_ANSWER_SEVEN_THREE = "answer-7-3";
+	public static final String HTML_ID_ANSWER_EIGHT_ZERO = "answer-8-0";
+	public static final String HTML_ID_ANSWER_NINE_ZERO = "answer-9-0";
+	public static final String HTML_ID_ANSWER_TEN_ZERO = "answer-10-0";
+	public static final String HTML_ID_ANSWER_ELEVEN_ZERO = "answer-11-0";
+	public static final String HTML_ID_CURRENT_PASSWORD = "currentPassword";
+	public static final String HTML_ID_NEW_PASSWORD = "password";
+	public static final String HTML_ID_CONFIRM_PASSWORD = "passwordConfirm";
+	public static final String HTML_ID_NOW = "now";
+	public static final String HTML_ID_STARTHOUR_ZERO = "startHour0";
+	public static final String HTML_ID_STARTMINUTE_ZERO = "startMinute0";
+	public static final String HTML_ID_ENDHOUR_ZERO = "endHour0";
+	public static final String HTML_ID_ENDMINUTE_ZERO = "endMinute0";
+
+	public static final String HTML_ATTRIBUTE_VALUE = "value";
+	public static final String HTML_NAME_KEYWORD = "keyword";
 	public static final String HTML_XPATH_INPUT_VALUE_LOGIN = "//input[@value='ログイン']";
+	public static final String HTML_XPATH_TBODY_TR = "//table/tbody/tr";
+	public static final String HTML_XPATH_CHILDELEM_TD = ".//td";
+	public static final String HTML_XPATH_TBODY_TR_TD = "//table/tbody/tr/td";
 	public static final String HTML_XPATH_INPUT_VALUE_CONTAINS_SUBMITTED_DAILYREPO = ".//input[contains(@value,'提出済み日報')]";
-	public static final String HTML_XPATH_CHILDELEM_INPUT_VALUE_DETALI = ".//input[@value='詳細']";
+	public static final String HTML_XPATH_INPUT_TYPE_CHECKBOX = "//input[@type='checkbox']";
+	public static final String HTML_XPATH_INPUT_BUTTON_SUBMIT = "//button[@type='submit']";
+	public static final String HTML_XPATH_INPUT_ID_UPDBTN = "//button[@id='upd-btn']";
+	public static final String HTML_XPATH_INPUT_VALUE_START_EXAM = "//input[@value='試験を開始する']";
+	public static final String HTML_XPATH_INPUT_VALUE_BACK = "//input[@value='戻る']";
+	public static final String HTML_XPATH_INPUT_VALUE_GO_FORWARD_CHECK = "//input[@value='確認画面へ進む']";
+	public static final String HTML_XPATH_INPUT_VALUE_DETAIL = "//input[@value='詳細']";
+	public static final String HTML_XPATH_CHILDELEM_INPUT_VALUE_DETAIL = ".//input[@value='詳細']";
+	public static final String HTML_XPATH_CHILDELEM_INPUT_VALUE_DOFIX = ".//input[@value='修正する']";
 	public static final String HTML_XPATH_INPUT_VALUE_CONTAINS_DAILYREPO = "//input[contains(@value,'日報')]";
+	public static final String HTML_XPATH_INPUT_VALUE_CONTAINS_WEEKLYREPO = "//input[contains(@value,'週報')]";
 	public static final String HTML_XPATH_BUTTON_TEXT_CONTAINS_SUBMISSION = "//button[contains(text(),'提出する')]";
-	
+	public static final String HTML_XPATH_BUTTON_TEXT_NEXT = "//button[text()='次へ']";
+
 	public static final String HTML_XPATH_A_HREF_CONTAINS_FAQ_CATE_1 = "//a[contains(@href, 'frequentlyAskedQuestionCategoryId=1')]";
 	public static final String HTML_XPATH_A_HREF_CONTAINS_FAQ_CATE_2 = "//a[contains(@href, 'frequentlyAskedQuestionCategoryId=2')]";
 	public static final String HTML_XPATH_A_HREF_CONTAINS_FAQ_CATE_3 = "//a[contains(@href, 'frequentlyAskedQuestionCategoryId=3')]";
 	public static final String HTML_XPATH_INPUT_VALUE_CLEAR = "//input[@value='クリア']";
 	public static final String HTML_XPATH_A_TEXT_FAQ = "//a[text()='よくある質問']";
+	public static final String HTML_XPATH_A_TEXT_ATTEND = "//a[text()='勤怠']";
+	public static final String HTML_XPATH_A_TEXT_ATTEND_EDIT = "//a[text()='勤怠情報を直接編集する']";
+	public static final String HTML_XPATH_INPUT_VALUE_ATTEND = "//input[@value='出勤']";
+	public static final String HTML_XPATH_INPUT_VALUE_LEVING = "//input[@value='退勤']";
+	public static final String HTML_XPATH_INPUT_VALUE_UPDATE = "//input[@value='更新']";
+
+	public static final String HTML_XPATH_A_HREF_DETAIL = "//a[@href='/lms/user/detail']";
 	public static final String HTML_CLASSNAME_DROPDOWN_TOGGLE = "dropdown-toggle";
 	public static final String HTML_CLASSNAME_WELL = "well";
+	public static final String HTML_CLASSNAME_PANEL_DEFAULT = "panel-default";
+	public static final String HTML_CLASSNAME_ERROR = "error";
+	public static final String HTML_CLASSNAME_UPDATEBUTTON = "update-button";
+	public static final String HTML_CLASSNAME_HELPINLINE = "help-inline";
 
-	
 	public static final String DRIVER_TYPE = "webdriver.chrome.driver";
 	public static final String ZERO_PIXEL = "0";
+	public static final String BLANK = "";
+	public static final String IT_LITERACY = "ITリテラシー①";
+	public static final String COMPREHENSION_LEVEL_ONE = "1";
+	public static final String ACHIEVEMENT_LEVEL_GOAL_ABNORMAL_BY_STRING_WORD = "abcde";
+	public static final String ACHIEVEMENT_LEVEL_GOAL_ABNORMAL_BY_INT_WORD = "1000";
+	public static final String ACHIEVEMENT_LEVEL_GOAL_NORMAL_WORD = "5";
+	public static final int TWENTY_PIXEL = 20;
+	public static final String ONE_HUNDRED_PIXEL = "100";
+	public static final String ONE_THOUSAND_PIXEL = "1000";
+	public static final String FIVE_THOUSAND_PIXEL = "5000";
 	public static final Integer SEPARATE_TAB = 1;
 	public static final Integer CATEGORYID_1 = 1;
 	public static final Integer CATEGORYID_2 = 2;
@@ -53,12 +119,47 @@ public class ConstantTestValue {
 	public static final String NO_EXIST_STUDENT = "noExistStudent";
 	public static final String EXIST_STUDENT_ID = "StudentAA01";
 	public static final String EXIST_STUDENT_PASS = "System3sss";
-	public static final String FIRST_LOGIN_STUDENT_ID = "StudentAA05";
+	public static final String MISS_STUDENT_PASS = "System4sss";
+	public static final String FIRST_LOGIN_STUDENT_ID = "StudentAA03";
 	public static final String ERROR_MSG_FAIL_LOGIN = "* ログインに失敗しました。";
+	public static final String ERROR_MSG_NEED_AGREE_SECURITYAGREEMENT = "セキュリティ規約への同意は必須です。";
+	public static final String ERROR_MSG_NOTNULL_CURRENT_PASSWORD = "現在のパスワードは必須です。";
+	public static final String ERROR_MSG_NOTNULL_NEW_PASSWORD = "パスワードは必須です。";
+	public static final String ERROR_MSG_NOTNULL_CHECK_PASSWORD = "確認パスワードは必須です。";
+	public static final String ERROR_MSG_OVER_TWENTY_WORD = "パスワードの長さが最大値(20)を超えています。";
+	public static final String ERROR_MSG_SAME_PASSWORD = "現在と同じパスワードは使用できません。";
+	public static final String ERROR_MSG_MISMATCH_PASSWORD = "パスワードと確認パスワードが一致しません。";
+	public static final String ERROR_MSG_CANT_INPUT_LEVING_WITHOUT_ATTEND = "* 出勤情報がないため退勤情報を入力出来ません。";
+	public static final String ERROR_MSG_CANT_INPUT_LEVING_FASTER_THAN_ATTEND = "* 退勤時刻[0]は出勤時刻[0]より後でなければいけません。";
+	public static final String ERROR_MSG_CANT_INPUT_BLANKTIME_MORE_THAN_WORKINGTIME = "* 中抜け時間が勤務時間を超えています。";
+	public static final String ERROR_MSG_CANT_INPUT_NOTE_MORE_THAN_ONEHUNDRED_WORD = "* 備考の長さが最大値(100)を超えています。";
+
+	public static final int ATTENDANCE_INFO = 2;
+	public static final int LEVING_INFO = 3;
 	public static final String SEARCH_KEYWORD = "セルフ";
+	public static final String NINE_HOUR_AM = "09";
+	public static final String ELEVEN_HOUR_AM = "11";
+	public static final String ONE_HOUR_PM = "13";
+	public static final String SIX_HOUR_PM = "18";
+	public static final String SEVEN_HOUR_PM = "19";
+	public static final String ZERO_MINUTE = "00";
+	public static final String NINE_O_CLOCK_AM = "09:00";
+	public static final String SEVEN_HOURS_BLANKTIME = "7時間";
+	public static final String ELEVEN_O_CLOCK_AM = "11:00";
+	public static final String ONE_O_CLOCK_PM = "13:00";
+	public static final String SIX_O_CLOCK_PM = "18:00";
+
+	public static final int YESTERDAY = 0;
+	public static final int TODAY = 1;
+	public static final String SCORE_ZERO = "0.0点";
+	public static final String AFTER_FIX_KEYWORD = "修正後";
+	public static final String EXAM_AVAILABLE = "試験有";
 	public static final String NO_SUBMISSION = "未提出";
+	public static final String DATE_2020_10_2 = "2022年10月2日";
+	public static final String WEEKLYREPORT = "週報";
 	public static final String SUBMITTED_DAILYREPO = "提出済み日報";
 	public static final String DAILYREPO_CONTENT = "abcdef50983k";
+	public static final String OVER_TWENTY_WORD = "7pxgQttbaMdgaY7N3b5YA";
 	public static final String HUNDRED_WORD = "]dy*,t?#Upuy*@8%8!j[Qt2]ZIZxCR9'$Q1|j0f[z'\".e;u?a>sS.ihv[jl=E#vVaxqOK+k@o~:XgiqX|&T}'1?s]XHL:C|h2ZM*a";
 	public static final String TWO_THOUSAND_WORD = "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";
 

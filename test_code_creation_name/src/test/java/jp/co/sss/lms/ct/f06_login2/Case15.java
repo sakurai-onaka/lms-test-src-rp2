@@ -80,14 +80,14 @@ public class Case15 {
 	@Order(3)
 	@DisplayName("テスト03 「同意します」チェックボックスにチェックをせず「次へ」ボタンを押下")
 	void test03() {
-		WebElement nextToButton = webDriver.findElement(By.xpath("//button[text()='次へ']"));
-		WebDriverUtils.scrollBy("1000");
+		WebElement nextToButton = webDriver.findElement(By.xpath(HTML_XPATH_BUTTON_TEXT_NEXT));
+		WebDriverUtils.scrollBy(ONE_THOUSAND_PIXEL);
 		nextToButton.click();
 		webDriver.manage().timeouts().implicitlyWait(WAIT_TEN_SECOND, TimeUnit.SECONDS);
 		getEvidence(new Object() {
 		}, "error_agree");
-		WebElement error = webDriver.findElement(By.className("error"));
-		assertEquals(error.getText(),"セキュリティ規約への同意は必須です。");
+		WebElement error = webDriver.findElement(By.className(HTML_CLASSNAME_ERROR));
+		assertEquals(error.getText(), ERROR_MSG_NEED_AGREE_SECURITYAGREEMENT);
 	}
 
 }

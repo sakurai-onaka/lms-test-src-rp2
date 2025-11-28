@@ -88,15 +88,15 @@ public class Case13 {
 	@Order(3)
 	@DisplayName("テスト03 「試験有」の研修日の「詳細」ボタンを押下しセクション詳細画面に遷移")
 	void test03() {
-		List<WebElement> trElems = webDriver.findElements(By.xpath("//table/tbody/tr"));
+		List<WebElement> trElems = webDriver.findElements(By.xpath(HTML_XPATH_TBODY_TR));
 		WebElement targetElem = null;
 		for (WebElement trElem : trElems) {
-			if (trElem.getText().contains("試験有")) {
+			if (trElem.getText().contains(EXAM_AVAILABLE)) {
 				targetElem = trElem;
 				break;
 			}
 		}
-		targetElem = targetElem.findElement(By.xpath(".//input[@value='詳細']"));
+		targetElem = targetElem.findElement(By.xpath(HTML_XPATH_CHILDELEM_INPUT_VALUE_DETAIL));
 		targetElem.submit();
 		webDriver.manage().timeouts().implicitlyWait(WAIT_TEN_SECOND, TimeUnit.SECONDS);
 		getEvidence(new Object() {
@@ -109,7 +109,7 @@ public class Case13 {
 	@Order(4)
 	@DisplayName("テスト04 「本日の試験」エリアの「詳細」ボタンを押下し試験開始画面に遷移")
 	void test04() {
-		webDriver.findElement(By.xpath("//input[@value='詳細']")).click();
+		webDriver.findElement(By.xpath(HTML_XPATH_INPUT_VALUE_DETAIL)).click();
 		webDriver.manage().timeouts().implicitlyWait(WAIT_TEN_SECOND, TimeUnit.SECONDS);
 		getEvidence(new Object() {
 		}, "examStart");
@@ -121,7 +121,7 @@ public class Case13 {
 	@Order(5)
 	@DisplayName("テスト05 「試験を開始する」ボタンを押下し試験問題画面に遷移")
 	void test05() {
-		webDriver.findElement(By.xpath("//input[@value='試験を開始する']")).click();
+		webDriver.findElement(By.xpath(HTML_XPATH_INPUT_VALUE_START_EXAM)).click();
 		webDriver.manage().timeouts().implicitlyWait(WAIT_TEN_SECOND, TimeUnit.SECONDS);
 		getEvidence(new Object() {
 		}, "examQuestion");
@@ -135,11 +135,11 @@ public class Case13 {
 	void test06() {
 		WebDriverUtils.getExamEvidence(new Object() {
 		}, "examQuestion_");
-		WebDriverUtils.scrollBy("5000");
+		WebDriverUtils.scrollBy(FIVE_THOUSAND_PIXEL);
 		webDriver.manage().timeouts().implicitlyWait(WAIT_TEN_SECOND, TimeUnit.SECONDS);
 		getEvidence(new Object() {
 		}, "examQuestion");
-		webDriver.findElement(By.xpath("//input[@value='確認画面へ進む']")).click();
+		webDriver.findElement(By.xpath(HTML_XPATH_INPUT_VALUE_GO_FORWARD_CHECK)).click();
 		webDriver.manage().timeouts().implicitlyWait(WAIT_TEN_SECOND, TimeUnit.SECONDS);
 		getEvidence(new Object() {
 		}, "examQuestion");
@@ -153,13 +153,13 @@ public class Case13 {
 	void test07() throws InterruptedException {
 		getExamEvidence(new Object() {
 		}, "examCheck_");
-		WebDriverUtils.scrollBy("5000");
+		WebDriverUtils.scrollBy(FIVE_THOUSAND_PIXEL);
 		webDriver.manage().timeouts().implicitlyWait(WAIT_TEN_SECOND, TimeUnit.SECONDS);
 		getEvidence(new Object() {
 		}, "beforeExamAnswerCheck");
 		//回答時間が1秒未満だとDBの回答時間がnull値になりシステムエラーが発生するためその対策
-		Thread.sleep(1000);
-		webDriver.findElement(By.id("sendButton")).click();
+		Thread.sleep(WAIT_ONE_THOUSAND_MM_SECOND);
+		webDriver.findElement(By.id(HTML_ID_SENDBUTTON)).click();
 		Alert confirm = webDriver.switchTo().alert();
 		confirm.accept();
 		getExamEvidence(new Object() {
@@ -172,11 +172,11 @@ public class Case13 {
 	@Order(8)
 	@DisplayName("テスト08 「戻る」ボタンを押下し試験開始画面に遷移後当該試験の結果が反映される")
 	void test08() {
-		WebDriverUtils.scrollBy("5000");
+		WebDriverUtils.scrollBy(FIVE_THOUSAND_PIXEL);
 		webDriver.manage().timeouts().implicitlyWait(WAIT_TEN_SECOND, TimeUnit.SECONDS);
 		getEvidence(new Object() {
 		}, "beforeExamResult");
-		webDriver.findElement(By.xpath("//input[@value='戻る']")).submit();
+		webDriver.findElement(By.xpath(HTML_XPATH_INPUT_VALUE_BACK)).submit();
 		webDriver.manage().timeouts().implicitlyWait(WAIT_TEN_SECOND, TimeUnit.SECONDS);
 		getEvidence(new Object() {
 		}, "afterExamAnswerResult");
@@ -186,10 +186,10 @@ public class Case13 {
 		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy年MM月dd日");
 		String todayString = today.format(formatter);
 		//テストコード実行時の日付と合致するテスト結果があるか確認
-		List<WebElement> tdElems = webDriver.findElements(By.xpath("//table/tbody/tr"));
+		List<WebElement> tdElems = webDriver.findElements(By.xpath(HTML_XPATH_TBODY_TR));
 		WebElement targetElem = null;	
 		for (WebElement tdElem : tdElems) {
-			if (tdElem.getText().contains(todayString) && tdElem.getText().contains("0.0点")) {
+			if (tdElem.getText().contains(todayString) && tdElem.getText().contains(SCORE_ZERO)) {
 				targetElem = tdElem;
 				break;
 			}

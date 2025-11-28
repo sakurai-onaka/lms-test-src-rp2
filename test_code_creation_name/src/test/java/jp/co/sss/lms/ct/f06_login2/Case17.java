@@ -83,15 +83,18 @@ public class Case17 {
 		webDriver.manage().timeouts().implicitlyWait(WAIT_TEN_SECOND, TimeUnit.SECONDS);
 		getEvidence(new Object() {
 		}, "afterLogin_2");
+		
+		String nowURL = webDriver.getCurrentUrl();
+		assertEquals(nowURL, LMS_USER_AGREESECURITY_URL);
 	}
 
 	@Test
 	@Order(3)
 	@DisplayName("テスト03 「同意します」チェックボックスにチェックを入れ「次へ」ボタン押下")
 	void test03() {
-		WebElement nextToButton = webDriver.findElement(By.xpath("//button[text()='次へ']"));
-		WebElement agreeCheckBox = webDriver.findElement(By.xpath("//input[@type='checkbox']"));
-		WebDriverUtils.scrollBy("1000");
+		WebElement nextToButton = webDriver.findElement(By.xpath(HTML_XPATH_BUTTON_TEXT_NEXT));
+		WebElement agreeCheckBox = webDriver.findElement(By.xpath(HTML_XPATH_INPUT_TYPE_CHECKBOX));
+		WebDriverUtils.scrollBy(ONE_THOUSAND_PIXEL);
 		agreeCheckBox.click();
 		webDriver.manage().timeouts().implicitlyWait(WAIT_TEN_SECOND, TimeUnit.SECONDS);
 		getEvidence(new Object() {
@@ -109,16 +112,16 @@ public class Case17 {
 	@DisplayName("テスト04 変更パスワードを入力し「変更」ボタン押下")
 	void test04() {
 		//パスワード入力
-		WebElement currentPassword = webDriver.findElement(By.id("currentPassword"));
-		WebElement password = webDriver.findElement(By.id("password"));
-		WebElement passwordConfirm = webDriver.findElement(By.id("passwordConfirm"));
+		WebElement currentPassword = webDriver.findElement(By.id(HTML_ID_CURRENT_PASSWORD));
+		WebElement password = webDriver.findElement(By.id(HTML_ID_NEW_PASSWORD));
+		WebElement passwordConfirm = webDriver.findElement(By.id(HTML_ID_CONFIRM_PASSWORD));
 		currentPassword.sendKeys(FIRST_LOGIN_STUDENT_ID);
-		password.sendKeys("System3sss");
-		passwordConfirm.sendKeys("System3sss");
+		password.sendKeys(EXIST_STUDENT_PASS);
+		passwordConfirm.sendKeys(EXIST_STUDENT_PASS);
 
-		webDriver.findElement(By.xpath("//button[@type='submit']")).click();
+		webDriver.findElement(By.xpath(HTML_XPATH_INPUT_BUTTON_SUBMIT)).click();
 		webDriver.manage().timeouts().implicitlyWait(WAIT_TEN_SECOND, TimeUnit.SECONDS);
-		webDriver.findElement(By.xpath("//button[@id='upd-btn']")).click();
+		webDriver.findElement(By.xpath(HTML_XPATH_INPUT_ID_UPDBTN)).click();
 		webDriver.manage().timeouts().implicitlyWait(WAIT_TEN_SECOND, TimeUnit.SECONDS);
 		getEvidence(new Object() {
 		}, "after_update");

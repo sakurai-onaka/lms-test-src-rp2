@@ -79,7 +79,7 @@ public class Case07 {
 	@Order(3)
 	@DisplayName("テスト03 未提出の研修日の「詳細」ボタンを押下しセクション詳細画面に遷移")
 	void test03() {
-		List<WebElement> trElems = webDriver.findElements(By.xpath("//table/tbody/tr"));
+		List<WebElement> trElems = webDriver.findElements(By.xpath(HTML_XPATH_TBODY_TR));
 		WebElement targetElem = null;
 		for (WebElement trElem : trElems) {
 			if (trElem.getText().contains(NO_SUBMISSION)) {
@@ -87,7 +87,7 @@ public class Case07 {
 				break;
 			}
 		}
-		targetElem = targetElem.findElement(By.xpath(HTML_XPATH_CHILDELEM_INPUT_VALUE_DETALI));
+		targetElem = targetElem.findElement(By.xpath(HTML_XPATH_CHILDELEM_INPUT_VALUE_DETAIL));
 		targetElem.submit();
 		webDriver.manage().timeouts().implicitlyWait(WAIT_TEN_SECOND, TimeUnit.SECONDS);
 		getEvidence(new Object() {
@@ -121,7 +121,7 @@ public class Case07 {
 		getEvidence(new Object() {
 		}, "afterReportRegist");
 		WebElement targetElem = webDriver.findElement(By.xpath(HTML_XPATH_INPUT_VALUE_CONTAINS_SUBMITTED_DAILYREPO));
-		assertTrue(targetElem.getAttribute("value").contains(SUBMITTED_DAILYREPO));
+		assertTrue(targetElem.getAttribute(HTML_ATTRIBUTE_VALUE).contains(SUBMITTED_DAILYREPO));
 	}
 
 }

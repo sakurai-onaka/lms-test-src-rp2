@@ -82,7 +82,7 @@ public class Case09 {
 	@Order(3)
 	@DisplayName("テスト03 上部メニューの「ようこそ○○さん」リンクからユーザー詳細画面に遷移")
 	void test03() {
-		webDriver.findElement(By.xpath("//a[@href='/lms/user/detail']")).click();
+		webDriver.findElement(By.xpath(HTML_XPATH_A_HREF_DETAIL)).click();
 		webDriver.manage().timeouts().implicitlyWait(WAIT_TEN_SECOND, TimeUnit.SECONDS);
 		getEvidence(new Object() {
 		}, "afterHello");
@@ -95,15 +95,15 @@ public class Case09 {
 	@DisplayName("テスト04 該当レポートの「修正する」ボタンを押下しレポート登録画面に遷移")
 	void test04() {
 		WebDriverUtils.scrollBy("1000");
-		List<WebElement> trElems = webDriver.findElements(By.xpath("//table/tbody/tr"));
+		List<WebElement> trElems = webDriver.findElements(By.xpath(HTML_XPATH_TBODY_TR));
 		WebElement targetElem = null;
 		for (WebElement trElem : trElems) {
-			if (trElem.getText().contains("2022年10月2日") && trElem.getText().contains("週報")) {
+			if (trElem.getText().contains(DATE_2020_10_2) && trElem.getText().contains(WEEKLYREPORT)) {
 				targetElem = trElem;
 				break;
 			}
 		}
-		targetElem = targetElem.findElement(By.xpath(".//input[@value='修正する']"));
+		targetElem = targetElem.findElement(By.xpath(HTML_XPATH_CHILDELEM_INPUT_VALUE_DOFIX));
 		targetElem.submit();
 		webDriver.manage().timeouts().implicitlyWait(WAIT_TEN_SECOND, TimeUnit.SECONDS);
 		getEvidence(new Object() {
@@ -114,17 +114,17 @@ public class Case09 {
 	@Order(5)
 	@DisplayName("テスト05 報告内容を修正して「提出する」ボタンを押下しエラー表示：学習項目が未入力")
 	void test05() {
-		WebElement learningContent = webDriver.findElement(By.id("intFieldName_0"));
-		Select comprehensionLevel = new Select(webDriver.findElement(By.id("intFieldValue_0")));
+		WebElement learningContent = webDriver.findElement(By.id(HTML_ID_LEANING_CONTENT));
+		Select comprehensionLevel = new Select(webDriver.findElement(By.id(HTML_ID_COMPREHENSION_LEVEL)));
 		learningContent.clear();
-		learningContent.sendKeys("");
+		learningContent.sendKeys(BLANK);
 		//comprehensionLevel.clear();
-		comprehensionLevel.selectByVisibleText("1");
+		comprehensionLevel.selectByVisibleText(COMPREHENSION_LEVEL_ONE);
 		webDriver.manage().timeouts().implicitlyWait(WAIT_TEN_SECOND, TimeUnit.SECONDS);
 		getEvidence(new Object() {
 		}, "beforeLearningContentNull");
-		WebDriverUtils.scrollBy("1000");
-		webDriver.findElement(By.xpath(".//button[text()='提出する']")).click();
+		WebDriverUtils.scrollBy(ONE_THOUSAND_PIXEL);
+		webDriver.findElement(By.xpath(HTML_XPATH_BUTTON_TEXT_CONTAINS_SUBMISSION)).click();
 		webDriver.manage().timeouts().implicitlyWait(WAIT_TEN_SECOND, TimeUnit.SECONDS);
 		getEvidence(new Object() {
 		}, "afterLearningContentNull");
@@ -134,17 +134,17 @@ public class Case09 {
 	@Order(6)
 	@DisplayName("テスト06 不適切な内容で修正して「提出する」ボタンを押下しエラー表示：理解度が未入力")
 	void test06() {
-		WebElement learningContent = webDriver.findElement(By.id("intFieldName_0"));
-		Select comprehensionLevel = new Select(webDriver.findElement(By.id("intFieldValue_0")));
+		WebElement learningContent = webDriver.findElement(By.id(HTML_ID_LEANING_CONTENT));
+		Select comprehensionLevel = new Select(webDriver.findElement(By.id(HTML_ID_COMPREHENSION_LEVEL)));
 		learningContent.clear();
-		learningContent.sendKeys("ITリテラシー①");
+		learningContent.sendKeys(IT_LITERACY);
 		//comprehensionLevel.clear();
-		comprehensionLevel.selectByVisibleText("");
+		comprehensionLevel.selectByVisibleText(BLANK);
 		webDriver.manage().timeouts().implicitlyWait(WAIT_TEN_SECOND, TimeUnit.SECONDS);
 		getEvidence(new Object() {
 		}, "beforeComprehensionLevelNull");
-		WebDriverUtils.scrollBy("1000");
-		webDriver.findElement(By.xpath(".//button[text()='提出する']")).click();
+		WebDriverUtils.scrollBy(ONE_THOUSAND_PIXEL);
+		webDriver.findElement(By.xpath(HTML_XPATH_BUTTON_TEXT_CONTAINS_SUBMISSION)).click();
 		webDriver.manage().timeouts().implicitlyWait(WAIT_TEN_SECOND, TimeUnit.SECONDS);
 		getEvidence(new Object() {
 		}, "afterComprehensionLevelNull");
@@ -154,19 +154,19 @@ public class Case09 {
 	@Order(7)
 	@DisplayName("テスト07 不適切な内容で修正して「提出する」ボタンを押下しエラー表示：目標の達成度が数値以外")
 	void test07() {
-		WebElement learningContent = webDriver.findElement(By.id("intFieldName_0"));
-		Select comprehensionLevel = new Select(webDriver.findElement(By.id("intFieldValue_0")));
-		WebElement AchievementLevelGoal = webDriver.findElement(By.id("content_0"));
+		WebElement learningContent = webDriver.findElement(By.id(HTML_ID_LEANING_CONTENT));
+		Select comprehensionLevel = new Select(webDriver.findElement(By.id(HTML_ID_COMPREHENSION_LEVEL)));
+		WebElement AchievementLevelGoal = webDriver.findElement(By.id(HTML_ID_CONTENT_ZERO));
 		learningContent.clear();
-		learningContent.sendKeys("ITリテラシー①");
-		comprehensionLevel.selectByVisibleText("1");
+		learningContent.sendKeys(IT_LITERACY);
+		comprehensionLevel.selectByVisibleText(COMPREHENSION_LEVEL_ONE);
 		AchievementLevelGoal.clear();
-		AchievementLevelGoal.sendKeys("abcde");
+		AchievementLevelGoal.sendKeys(ACHIEVEMENT_LEVEL_GOAL_ABNORMAL_BY_STRING_WORD);
 		webDriver.manage().timeouts().implicitlyWait(WAIT_TEN_SECOND, TimeUnit.SECONDS);
 		getEvidence(new Object() {
 		}, "beforeAchievementLevelGoalWithoutNum");
-		WebDriverUtils.scrollBy("1000");
-		webDriver.findElement(By.xpath(".//button[text()='提出する']")).click();
+		WebDriverUtils.scrollBy(ONE_THOUSAND_PIXEL);
+		webDriver.findElement(By.xpath(HTML_XPATH_BUTTON_TEXT_CONTAINS_SUBMISSION)).click();
 		webDriver.manage().timeouts().implicitlyWait(WAIT_TEN_SECOND, TimeUnit.SECONDS);
 		getEvidence(new Object() {
 		}, "afterAchievementLevelGoalWithoutNum");
@@ -176,19 +176,19 @@ public class Case09 {
 	@Order(8)
 	@DisplayName("テスト08 不適切な内容で修正して「提出する」ボタンを押下しエラー表示：目標の達成度が範囲外")
 	void test08() {
-		WebElement learningContent = webDriver.findElement(By.id("intFieldName_0"));
-		Select comprehensionLevel = new Select(webDriver.findElement(By.id("intFieldValue_0")));
-		WebElement AchievementLevelGoal = webDriver.findElement(By.id("content_0"));
+		WebElement learningContent = webDriver.findElement(By.id(HTML_ID_LEANING_CONTENT));
+		Select comprehensionLevel = new Select(webDriver.findElement(By.id(HTML_ID_COMPREHENSION_LEVEL)));
+		WebElement AchievementLevelGoal = webDriver.findElement(By.id(HTML_ID_CONTENT_ZERO));
 		learningContent.clear();
-		learningContent.sendKeys("ITリテラシー①");
-		comprehensionLevel.selectByVisibleText("1");
+		learningContent.sendKeys(IT_LITERACY);
+		comprehensionLevel.selectByVisibleText(COMPREHENSION_LEVEL_ONE);
 		AchievementLevelGoal.clear();
-		AchievementLevelGoal.sendKeys("1000");
+		AchievementLevelGoal.sendKeys(ACHIEVEMENT_LEVEL_GOAL_ABNORMAL_BY_INT_WORD);
 		webDriver.manage().timeouts().implicitlyWait(WAIT_TEN_SECOND, TimeUnit.SECONDS);
 		getEvidence(new Object() {
 		}, "beforeAchievementLevelGoalOutBound");
-		WebDriverUtils.scrollBy("1000");
-		webDriver.findElement(By.xpath(".//button[text()='提出する']")).click();
+		WebDriverUtils.scrollBy(ONE_THOUSAND_PIXEL);
+		webDriver.findElement(By.xpath(HTML_XPATH_BUTTON_TEXT_CONTAINS_SUBMISSION)).click();
 		webDriver.manage().timeouts().implicitlyWait(WAIT_TEN_SECOND, TimeUnit.SECONDS);
 		getEvidence(new Object() {
 		}, "afterAchievementLevelGoalOutBound");
@@ -198,23 +198,23 @@ public class Case09 {
 	@Order(9)
 	@DisplayName("テスト09 不適切な内容で修正して「提出する」ボタンを押下しエラー表示：目標の達成度・所感が未入力")
 	void test09() {
-		WebElement learningContent = webDriver.findElement(By.id("intFieldName_0"));
-		Select comprehensionLevel = new Select(webDriver.findElement(By.id("intFieldValue_0")));
-		WebElement AchievementLevelGoal = webDriver.findElement(By.id("content_0"));
-		WebElement Impression = webDriver.findElement(By.id("content_1"));
-		
+		WebElement learningContent = webDriver.findElement(By.id(HTML_ID_LEANING_CONTENT));
+		Select comprehensionLevel = new Select(webDriver.findElement(By.id(HTML_ID_COMPREHENSION_LEVEL)));
+		WebElement AchievementLevelGoal = webDriver.findElement(By.id(HTML_ID_CONTENT_ZERO));
+		WebElement Impression = webDriver.findElement(By.id(HTML_ID_CONTENT_ONE));
+
 		learningContent.clear();
-		learningContent.sendKeys("ITリテラシー①");
-		comprehensionLevel.selectByVisibleText("1");
+		learningContent.sendKeys(IT_LITERACY);
+		comprehensionLevel.selectByVisibleText(COMPREHENSION_LEVEL_ONE);
 		AchievementLevelGoal.clear();
 		Impression.clear();
-		WebDriverUtils.scrollBy("100");
+		WebDriverUtils.scrollBy(ONE_HUNDRED_PIXEL);
 		webDriver.manage().timeouts().implicitlyWait(WAIT_TEN_SECOND, TimeUnit.SECONDS);
 		getEvidence(new Object() {
 		}, "beforeAchievementLevelGoalNull");
-		WebDriverUtils.scrollBy("1000");
-		webDriver.findElement(By.xpath(".//button[text()='提出する']")).click();
-		WebDriverUtils.scrollBy("100");
+		WebDriverUtils.scrollBy(ONE_THOUSAND_PIXEL);
+		webDriver.findElement(By.xpath(HTML_XPATH_BUTTON_TEXT_CONTAINS_SUBMISSION)).click();
+		WebDriverUtils.scrollBy(ONE_HUNDRED_PIXEL);
 		webDriver.manage().timeouts().implicitlyWait(WAIT_TEN_SECOND, TimeUnit.SECONDS);
 		getEvidence(new Object() {
 		}, "afterAchievementLevelGoalNull");
@@ -225,29 +225,29 @@ public class Case09 {
 	@DisplayName("テスト10 不適切な内容で修正して「提出する」ボタンを押下しエラー表示：所感・一週間の振り返りが2000文字超")
 	void test10() {
 		//
-		WebElement learningContent = webDriver.findElement(By.id("intFieldName_0"));
-		Select comprehensionLevel = new Select(webDriver.findElement(By.id("intFieldValue_0")));
-		WebElement AchievementLevelGoal = webDriver.findElement(By.id("content_0"));
-		WebElement Impression = webDriver.findElement(By.id("content_1"));
-		WebElement lookingBackWeek = webDriver.findElement(By.id("content_2"));
-		
+		WebElement learningContent = webDriver.findElement(By.id(HTML_ID_LEANING_CONTENT));
+		Select comprehensionLevel = new Select(webDriver.findElement(By.id(HTML_ID_COMPREHENSION_LEVEL)));
+		WebElement AchievementLevelGoal = webDriver.findElement(By.id(HTML_ID_CONTENT_ZERO));
+		WebElement Impression = webDriver.findElement(By.id(HTML_ID_CONTENT_ONE));
+		WebElement lookingBackWeek = webDriver.findElement(By.id(HTML_ID_CONTENT_TWO));
+
 		learningContent.clear();
-		learningContent.sendKeys("ITリテラシー①");
-		comprehensionLevel.selectByVisibleText("1");
+		learningContent.sendKeys(IT_LITERACY);
+		comprehensionLevel.selectByVisibleText(COMPREHENSION_LEVEL_ONE);
 		AchievementLevelGoal.clear();
-		AchievementLevelGoal.sendKeys("5");
+		AchievementLevelGoal.sendKeys(ACHIEVEMENT_LEVEL_GOAL_NORMAL_WORD);
 		Impression.clear();
 		Impression.sendKeys(TWO_THOUSAND_WORD);
 		lookingBackWeek.clear();
 		lookingBackWeek.sendKeys(TWO_THOUSAND_WORD);
-		
-		WebDriverUtils.scrollBy("100");
+
+		WebDriverUtils.scrollBy(ONE_HUNDRED_PIXEL);
 		webDriver.manage().timeouts().implicitlyWait(WAIT_TEN_SECOND, TimeUnit.SECONDS);
 		getEvidence(new Object() {
 		}, "beforeAchievementLevelGoalOver2000");
-		WebDriverUtils.scrollBy("1000");
-		webDriver.findElement(By.xpath(".//button[text()='提出する']")).click();
-		WebDriverUtils.scrollBy("1000");
+		WebDriverUtils.scrollBy(ONE_THOUSAND_PIXEL);
+		webDriver.findElement(By.xpath(HTML_XPATH_BUTTON_TEXT_CONTAINS_SUBMISSION)).click();
+		WebDriverUtils.scrollBy(ONE_THOUSAND_PIXEL);
 		webDriver.manage().timeouts().implicitlyWait(WAIT_TEN_SECOND, TimeUnit.SECONDS);
 		getEvidence(new Object() {
 		}, "afterAchievementLevelGoalOver2000");

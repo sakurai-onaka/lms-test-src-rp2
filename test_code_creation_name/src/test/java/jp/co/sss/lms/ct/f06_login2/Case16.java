@@ -93,9 +93,9 @@ public class Case16 {
 	@Order(3)
 	@DisplayName("テスト03 「同意します」チェックボックスにチェックを入れ「次へ」ボタン押下")
 	void test03() {
-		WebElement nextToButton = webDriver.findElement(By.xpath("//button[text()='次へ']"));
-		WebElement agreeCheckBox = webDriver.findElement(By.xpath("//input[@type='checkbox']"));
-		WebDriverUtils.scrollBy("1000");
+		WebElement nextToButton = webDriver.findElement(By.xpath(HTML_XPATH_BUTTON_TEXT_NEXT));
+		WebElement agreeCheckBox = webDriver.findElement(By.xpath(HTML_XPATH_INPUT_TYPE_CHECKBOX));
+		WebDriverUtils.scrollBy(ONE_THOUSAND_PIXEL);
 		agreeCheckBox.click();
 		webDriver.manage().timeouts().implicitlyWait(WAIT_TEN_SECOND, TimeUnit.SECONDS);
 		getEvidence(new Object() {
@@ -112,41 +112,41 @@ public class Case16 {
 	@Order(4)
 	@DisplayName("テスト04 パスワードを未入力で「変更」ボタン押下")
 	void test04() {
-		webDriver.findElement(By.xpath("//button[@type='submit']")).click();
+		webDriver.findElement(By.xpath(HTML_XPATH_INPUT_BUTTON_SUBMIT)).click();
 		webDriver.manage().timeouts().implicitlyWait(WAIT_TEN_SECOND, TimeUnit.SECONDS);
-		webDriver.findElement(By.xpath("//button[@id='upd-btn']")).click();
+		webDriver.findElement(By.xpath(HTML_XPATH_INPUT_ID_UPDBTN)).click();
 		webDriver.manage().timeouts().implicitlyWait(WAIT_TEN_SECOND, TimeUnit.SECONDS);
 		getEvidence(new Object() {
 		}, "after_update_error");
-		List<WebElement> errors = webDriver.findElements(By.className("error"));
-		assertEquals(errors.get(1).getText(), "現在のパスワードは必須です。");
-		assertTrue(errors.get(2).getText().contains("パスワードは必須です。"));
-		assertEquals(errors.get(3).getText(), "確認パスワードは必須です。");
+		List<WebElement> errors = webDriver.findElements(By.className(HTML_CLASSNAME_ERROR));
+		assertEquals(errors.get(1).getText(), ERROR_MSG_NOTNULL_CURRENT_PASSWORD);
+		assertTrue(errors.get(2).getText().contains(ERROR_MSG_NOTNULL_NEW_PASSWORD));
+		assertEquals(errors.get(3).getText(), ERROR_MSG_NOTNULL_CHECK_PASSWORD);
 	}
 
 	@Test
 	@Order(5)
 	@DisplayName("テスト05 20文字以上の変更パスワードを入力し「変更」ボタン押下")
 	void test05() {
-		WebElement currentPassword = webDriver.findElement(By.id("currentPassword"));
-		WebElement password = webDriver.findElement(By.id("password"));
-		WebElement passwordConfirm = webDriver.findElement(By.id("passwordConfirm"));
+		WebElement currentPassword = webDriver.findElement(By.id(HTML_ID_CURRENT_PASSWORD));
+		WebElement password = webDriver.findElement(By.id(HTML_ID_NEW_PASSWORD));
+		WebElement passwordConfirm = webDriver.findElement(By.id(HTML_ID_CONFIRM_PASSWORD));
 		currentPassword.sendKeys(FIRST_LOGIN_STUDENT_ID);
-		password.sendKeys("7pxgQttbaMdgaY7N3b5YA");
-		passwordConfirm.sendKeys("7pxgQttbaMdgaY7N3b5YA");
+		password.sendKeys(OVER_TWENTY_WORD);
+		passwordConfirm.sendKeys(OVER_TWENTY_WORD);
 		webDriver.manage().timeouts().implicitlyWait(WAIT_TEN_SECOND, TimeUnit.SECONDS);
 		getEvidence(new Object() {
 		}, "before_update_error");
 
-		WebDriverUtils.scrollBy("1000");
-		webDriver.findElement(By.xpath("//button[@type='submit']")).click();
+		WebDriverUtils.scrollBy(ONE_THOUSAND_PIXEL);
+		webDriver.findElement(By.xpath(HTML_XPATH_INPUT_BUTTON_SUBMIT)).click();
 		webDriver.manage().timeouts().implicitlyWait(WAIT_TEN_SECOND, TimeUnit.SECONDS);
-		webDriver.findElement(By.xpath("//button[@id='upd-btn']")).click();
+		webDriver.findElement(By.xpath(HTML_XPATH_INPUT_ID_UPDBTN)).click();
 		webDriver.manage().timeouts().implicitlyWait(WAIT_TEN_SECOND, TimeUnit.SECONDS);
 		getEvidence(new Object() {
 		}, "after_update_error");
-		List<WebElement> errors = webDriver.findElements(By.className("error"));
-		assertEquals(errors.get(1).getText(), "パスワードの長さが最大値(20)を超えています。");
+		List<WebElement> errors = webDriver.findElements(By.className(HTML_CLASSNAME_ERROR));
+		assertEquals(errors.get(1).getText(), ERROR_MSG_OVER_TWENTY_WORD);
 
 	}
 
@@ -154,9 +154,9 @@ public class Case16 {
 	@Order(6)
 	@DisplayName("テスト06 ポリシーに合わない変更パスワードを入力し「変更」ボタン押下")
 	void test06() {
-		WebElement currentPassword = webDriver.findElement(By.id("currentPassword"));
-		WebElement password = webDriver.findElement(By.id("password"));
-		WebElement passwordConfirm = webDriver.findElement(By.id("passwordConfirm"));
+		WebElement currentPassword = webDriver.findElement(By.id(HTML_ID_CURRENT_PASSWORD));
+		WebElement password = webDriver.findElement(By.id(HTML_ID_NEW_PASSWORD));
+		WebElement passwordConfirm = webDriver.findElement(By.id(HTML_ID_CONFIRM_PASSWORD));
 		currentPassword.sendKeys(FIRST_LOGIN_STUDENT_ID);
 		password.sendKeys(FIRST_LOGIN_STUDENT_ID);
 		passwordConfirm.sendKeys(FIRST_LOGIN_STUDENT_ID);
@@ -164,42 +164,42 @@ public class Case16 {
 		getEvidence(new Object() {
 		}, "before_update_error");
 
-		WebDriverUtils.scrollBy("1000");
-		webDriver.findElement(By.xpath("//button[@type='submit']")).click();
+		WebDriverUtils.scrollBy(ONE_THOUSAND_PIXEL);
+		webDriver.findElement(By.xpath(HTML_XPATH_INPUT_BUTTON_SUBMIT)).click();
 		webDriver.manage().timeouts().implicitlyWait(WAIT_TEN_SECOND, TimeUnit.SECONDS);
-		webDriver.findElement(By.xpath("//button[@id='upd-btn']")).click();
+		webDriver.findElement(By.xpath(HTML_XPATH_INPUT_ID_UPDBTN)).click();
 		webDriver.manage().timeouts().implicitlyWait(WAIT_TEN_SECOND, TimeUnit.SECONDS);
 		getEvidence(new Object() {
 		}, "after_update_error");
 
-		List<WebElement> errors = webDriver.findElements(By.className("error"));
-		assertEquals(errors.get(1).getText(), "現在と同じパスワードは使用できません。");
+		List<WebElement> errors = webDriver.findElements(By.className(HTML_CLASSNAME_ERROR));
+		assertEquals(errors.get(1).getText(), ERROR_MSG_SAME_PASSWORD);
 	}
 
 	@Test
 	@Order(7)
 	@DisplayName("テスト07 一致しない確認パスワードを入力し「変更」ボタン押下")
 	void test07() {
-		WebElement currentPassword = webDriver.findElement(By.id("currentPassword"));
-		WebElement password = webDriver.findElement(By.id("password"));
-		WebElement passwordConfirm = webDriver.findElement(By.id("passwordConfirm"));
+		WebElement currentPassword = webDriver.findElement(By.id(HTML_ID_CURRENT_PASSWORD));
+		WebElement password = webDriver.findElement(By.id(HTML_ID_NEW_PASSWORD));
+		WebElement passwordConfirm = webDriver.findElement(By.id(HTML_ID_CONFIRM_PASSWORD));
 		currentPassword.sendKeys(FIRST_LOGIN_STUDENT_ID);
-		password.sendKeys("System3sss");
-		passwordConfirm.sendKeys("System4sss");
+		password.sendKeys(EXIST_STUDENT_PASS);
+		passwordConfirm.sendKeys(MISS_STUDENT_PASS);
 		webDriver.manage().timeouts().implicitlyWait(WAIT_TEN_SECOND, TimeUnit.SECONDS);
 		getEvidence(new Object() {
 		}, "before_update_error");
 
-		WebDriverUtils.scrollBy("1000");
-		webDriver.findElement(By.xpath("//button[@type='submit']")).click();
+		WebDriverUtils.scrollBy(ONE_THOUSAND_PIXEL);
+		webDriver.findElement(By.xpath(HTML_XPATH_INPUT_BUTTON_SUBMIT)).click();
 		webDriver.manage().timeouts().implicitlyWait(WAIT_TEN_SECOND, TimeUnit.SECONDS);
-		webDriver.findElement(By.xpath("//button[@id='upd-btn']")).click();
+		webDriver.findElement(By.xpath(HTML_XPATH_INPUT_ID_UPDBTN)).click();
 		webDriver.manage().timeouts().implicitlyWait(WAIT_TEN_SECOND, TimeUnit.SECONDS);
 		getEvidence(new Object() {
 		}, "after_update_error");
 
-		List<WebElement> errors = webDriver.findElements(By.className("error"));
-		assertEquals(errors.get(1).getText(), "パスワードと確認パスワードが一致しません。");
+		List<WebElement> errors = webDriver.findElements(By.className(HTML_CLASSNAME_ERROR));
+		assertEquals(errors.get(1).getText(), ERROR_MSG_MISMATCH_PASSWORD);
 	}
 
 }

@@ -83,7 +83,7 @@ public class Case12 {
 	@DisplayName("テスト03 上部メニューの「勤怠」リンクから勤怠管理画面に遷移")
 	void test03() {
 		//上部メニューの「勤怠」リンクから勤怠管理画面に遷移
-		webDriver.findElement(By.xpath("//a[text()='勤怠']")).click();
+		webDriver.findElement(By.xpath(HTML_XPATH_A_TEXT_ATTEND)).click();
 		Alert alert = webDriver.switchTo().alert();
 		alert.accept();
 		webDriver.manage().timeouts().implicitlyWait(WAIT_TEN_SECOND, TimeUnit.SECONDS);
@@ -98,7 +98,7 @@ public class Case12 {
 	@DisplayName("テスト04 「勤怠情報を直接編集する」リンクから勤怠情報直接変更画面に遷移")
 	void test04() {
 		//上部メニューの「勤怠」リンクから勤怠管理画面に遷移
-		webDriver.findElement(By.xpath("//a[text()='勤怠情報を直接編集する']")).click();
+		webDriver.findElement(By.xpath(HTML_XPATH_A_TEXT_ATTEND_EDIT)).click();
 		webDriver.manage().timeouts().implicitlyWait(WAIT_TEN_SECOND, TimeUnit.SECONDS);
 		getEvidence(new Object() {
 		}, "afterUpdateAttendance_1");
@@ -110,117 +110,117 @@ public class Case12 {
 	@Order(5)
 	@DisplayName("テスト05 不適切な内容で修正してエラー表示：出退勤の（時）と（分）のいずれかが空白")
 	void test05() {
-		Select startHour = new Select(webDriver.findElement(By.id("startHour0")));
-		Select startMinute = new Select(webDriver.findElement(By.id("startMinute0")));
+		Select startHour = new Select(webDriver.findElement(By.id(HTML_ID_STARTHOUR_ZERO)));
+		Select startMinute = new Select(webDriver.findElement(By.id(HTML_ID_STARTMINUTE_ZERO)));
 
-		startHour.selectByVisibleText("09");
-		startMinute.selectByVisibleText("");
-		WebDriverUtils.scrollBy("1000");
-		WebElement updateButton = webDriver.findElement(By.className("update-button"));
+		startHour.selectByVisibleText(NINE_HOUR_AM);
+		startMinute.selectByVisibleText(BLANK);
+		WebDriverUtils.scrollBy(ONE_THOUSAND_PIXEL);
+		WebElement updateButton = webDriver.findElement(By.className(HTML_CLASSNAME_UPDATEBUTTON));
 		updateButton.click();
-		
+
 		Alert confirm = webDriver.switchTo().alert();
 		confirm.accept();
-		
-		WebElement error = webDriver.findElement(By.className("help-inline"));
-		assertEquals(error.getText(),"* 出勤時間が正しく入力されていません。");
+
+		WebElement error = webDriver.findElement(By.className(HTML_CLASSNAME_HELPINLINE));
+		assertEquals(error.getText(), "* 出勤時間が正しく入力されていません。");
 	}
 
 	@Test
 	@Order(6)
 	@DisplayName("テスト06 不適切な内容で修正してエラー表示：出勤が空白で退勤に入力あり")
 	void test06() {
-		Select startHour = new Select(webDriver.findElement(By.id("startHour0")));
-		Select startMinute = new Select(webDriver.findElement(By.id("startMinute0")));
-		Select endHour = new Select(webDriver.findElement(By.id("endHour0")));
-		Select endMinute = new Select(webDriver.findElement(By.id("endMinute0")));
-		
-		startHour.selectByVisibleText("");
-		startMinute.selectByVisibleText("");
-		endHour.selectByVisibleText("18");
-		endMinute.selectByVisibleText("00");
-		WebDriverUtils.scrollBy("1000");
-		WebElement updateButton = webDriver.findElement(By.className("update-button"));
+		Select startHour = new Select(webDriver.findElement(By.id(HTML_ID_STARTHOUR_ZERO)));
+		Select startMinute = new Select(webDriver.findElement(By.id(HTML_ID_STARTMINUTE_ZERO)));
+		Select endHour = new Select(webDriver.findElement(By.id(HTML_ID_ENDHOUR_ZERO)));
+		Select endMinute = new Select(webDriver.findElement(By.id(HTML_ID_ENDMINUTE_ZERO)));
+
+		startHour.selectByVisibleText(BLANK);
+		startMinute.selectByVisibleText(BLANK);
+		endHour.selectByVisibleText(SIX_HOUR_PM);
+		endMinute.selectByVisibleText(ZERO_MINUTE);
+		WebDriverUtils.scrollBy(ONE_THOUSAND_PIXEL);
+		WebElement updateButton = webDriver.findElement(By.className(HTML_CLASSNAME_UPDATEBUTTON));
 		updateButton.click();
 		Alert confirm = webDriver.switchTo().alert();
 		confirm.accept();
-		
-		WebElement error = webDriver.findElement(By.className("help-inline"));
-		assertEquals(error.getText(),"* 出勤情報がないため退勤情報を入力出来ません。");
+
+		WebElement error = webDriver.findElement(By.className(HTML_CLASSNAME_HELPINLINE));
+		assertEquals(error.getText(), ERROR_MSG_CANT_INPUT_LEVING_WITHOUT_ATTEND);
 	}
 
 	@Test
 	@Order(7)
 	@DisplayName("テスト07 不適切な内容で修正してエラー表示：出勤が退勤よりも遅い時間")
 	void test07() {
-		Select startHour = new Select(webDriver.findElement(By.id("startHour0")));
-		Select startMinute = new Select(webDriver.findElement(By.id("startMinute0")));
-		Select endHour = new Select(webDriver.findElement(By.id("endHour0")));
-		Select endMinute = new Select(webDriver.findElement(By.id("endMinute0")));
-		
-		startHour.selectByVisibleText("19");
-		startMinute.selectByVisibleText("00");
-		endHour.selectByVisibleText("18");
-		endMinute.selectByVisibleText("00");
-		WebDriverUtils.scrollBy("1000");
-		WebElement updateButton = webDriver.findElement(By.className("update-button"));
+		Select startHour = new Select(webDriver.findElement(By.id(HTML_ID_STARTHOUR_ZERO)));
+		Select startMinute = new Select(webDriver.findElement(By.id(HTML_ID_STARTMINUTE_ZERO)));
+		Select endHour = new Select(webDriver.findElement(By.id(HTML_ID_ENDHOUR_ZERO)));
+		Select endMinute = new Select(webDriver.findElement(By.id(HTML_ID_ENDMINUTE_ZERO)));
+
+		startHour.selectByVisibleText(SEVEN_HOUR_PM);
+		startMinute.selectByVisibleText(ZERO_MINUTE);
+		endHour.selectByVisibleText(SIX_HOUR_PM);
+		endMinute.selectByVisibleText(ZERO_MINUTE);
+		WebDriverUtils.scrollBy(ONE_THOUSAND_PIXEL);
+		WebElement updateButton = webDriver.findElement(By.className(HTML_CLASSNAME_UPDATEBUTTON));
 		updateButton.click();
 		Alert confirm = webDriver.switchTo().alert();
 		confirm.accept();
-		
-		WebElement error = webDriver.findElement(By.className("help-inline"));
-		assertEquals(error.getText(),"* 退勤時刻[0]は出勤時刻[0]より後でなければいけません。");
+
+		WebElement error = webDriver.findElement(By.className(HTML_CLASSNAME_HELPINLINE));
+		assertEquals(error.getText(), ERROR_MSG_CANT_INPUT_LEVING_FASTER_THAN_ATTEND);
 	}
 
 	@Test
 	@Order(8)
 	@DisplayName("テスト08 不適切な内容で修正してエラー表示：出退勤時間を超える中抜け時間")
 	void test08() {
-		Select startHour = new Select(webDriver.findElement(By.id("startHour0")));
-		Select startMinute = new Select(webDriver.findElement(By.id("startMinute0")));
-		Select endHour = new Select(webDriver.findElement(By.id("endHour0")));
-		Select endMinute = new Select(webDriver.findElement(By.id("endMinute0")));
-		Select blankTime = new Select(webDriver.findElement(By.name("attendanceList[0].blankTime")));
-		
-		startHour.selectByVisibleText("09");
-		startMinute.selectByVisibleText("00");
-		endHour.selectByVisibleText("12");
-		endMinute.selectByVisibleText("00");
-		blankTime.selectByVisibleText("7時間");
-		WebDriverUtils.scrollBy("1000");
-		WebElement updateButton = webDriver.findElement(By.className("update-button"));
+		Select startHour = new Select(webDriver.findElement(By.id(HTML_ID_STARTHOUR_ZERO)));
+		Select startMinute = new Select(webDriver.findElement(By.id(HTML_ID_STARTMINUTE_ZERO)));
+		Select endHour = new Select(webDriver.findElement(By.id(HTML_ID_ENDHOUR_ZERO)));
+		Select endMinute = new Select(webDriver.findElement(By.id(HTML_ID_ENDMINUTE_ZERO)));
+		Select blankTime = new Select(webDriver.findElement(By.name(HTML_NAME_BLANKTIME_ZERO)));
+
+		startHour.selectByVisibleText(NINE_HOUR_AM);
+		startMinute.selectByVisibleText(ZERO_MINUTE);
+		endHour.selectByVisibleText(ONE_HOUR_PM);
+		endMinute.selectByVisibleText(ZERO_MINUTE);
+		blankTime.selectByVisibleText(SEVEN_HOURS_BLANKTIME);
+		WebDriverUtils.scrollBy(ONE_THOUSAND_PIXEL);
+		WebElement updateButton = webDriver.findElement(By.className(HTML_CLASSNAME_UPDATEBUTTON));
 		updateButton.click();
 		Alert confirm = webDriver.switchTo().alert();
 		confirm.accept();
-		
-		WebElement error = webDriver.findElement(By.className("help-inline"));
-		assertEquals(error.getText(),"* 中抜け時間が勤務時間を超えています。");
+
+		WebElement error = webDriver.findElement(By.className(HTML_CLASSNAME_HELPINLINE));
+		assertEquals(error.getText(), ERROR_MSG_CANT_INPUT_BLANKTIME_MORE_THAN_WORKINGTIME);
 	}
 
 	@Test
 	@Order(9)
 	@DisplayName("テスト09 不適切な内容で修正してエラー表示：備考が100文字超")
 	void test09() {
-		Select startHour = new Select(webDriver.findElement(By.id("startHour0")));
-		Select startMinute = new Select(webDriver.findElement(By.id("startMinute0")));
-		Select endHour = new Select(webDriver.findElement(By.id("endHour0")));
-		Select endMinute = new Select(webDriver.findElement(By.id("endMinute0")));
-		Select blankTime = new Select(webDriver.findElement(By.name("attendanceList[0].blankTime")));
-		WebElement note = webDriver.findElement(By.name("attendanceList[0].note"));
+		Select startHour = new Select(webDriver.findElement(By.id(HTML_ID_STARTHOUR_ZERO)));
+		Select startMinute = new Select(webDriver.findElement(By.id(HTML_ID_STARTMINUTE_ZERO)));
+		Select endHour = new Select(webDriver.findElement(By.id(HTML_ID_ENDHOUR_ZERO)));
+		Select endMinute = new Select(webDriver.findElement(By.id(HTML_ID_ENDMINUTE_ZERO)));
+		Select blankTime = new Select(webDriver.findElement(By.name(HTML_NAME_BLANKTIME_ZERO)));
+		WebElement note = webDriver.findElement(By.name(HTML_NAME_NOTE_ZERO));
 		note.sendKeys(HUNDRED_WORD);
-		startHour.selectByVisibleText("09");
-		startMinute.selectByVisibleText("00");
-		endHour.selectByVisibleText("18");
-		endMinute.selectByVisibleText("00");
-		blankTime.selectByVisibleText("");
-		WebDriverUtils.scrollBy("1000");
-		WebElement updateButton = webDriver.findElement(By.className("update-button"));
+		startHour.selectByVisibleText(NINE_HOUR_AM);
+		startMinute.selectByVisibleText(ZERO_MINUTE);
+		endHour.selectByVisibleText(SIX_HOUR_PM);
+		endMinute.selectByVisibleText(ZERO_MINUTE);
+		blankTime.selectByVisibleText(BLANK);
+		WebDriverUtils.scrollBy(ONE_THOUSAND_PIXEL);
+		WebElement updateButton = webDriver.findElement(By.className(HTML_CLASSNAME_UPDATEBUTTON));
 		updateButton.click();
 		Alert confirm = webDriver.switchTo().alert();
 		confirm.accept();
-		
-		WebElement error = webDriver.findElement(By.className("help-inline"));
-		assertEquals(error.getText(),"* 備考の長さが最大値(100)を超えています。");
+
+		WebElement error = webDriver.findElement(By.className(HTML_CLASSNAME_HELPINLINE));
+		assertEquals(error.getText(), ERROR_MSG_CANT_INPUT_NOTE_MORE_THAN_ONEHUNDRED_WORD);
 	}
 
 }

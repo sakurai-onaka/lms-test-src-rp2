@@ -83,7 +83,7 @@ public class Case10 {
 	@DisplayName("テスト03 上部メニューの「勤怠」リンクから勤怠管理画面に遷移")
 	void test03() {
 		//上部メニューの「勤怠」リンクから勤怠管理画面に遷移
-		webDriver.findElement(By.xpath("//a[text()='勤怠']")).click();
+		webDriver.findElement(By.xpath(HTML_XPATH_A_TEXT_ATTEND)).click();
 		Alert alert = webDriver.switchTo().alert();
 		alert.accept();
 		webDriver.manage().timeouts().implicitlyWait(WAIT_TEN_SECOND, TimeUnit.SECONDS);
@@ -97,7 +97,7 @@ public class Case10 {
 	@Order(4)
 	@DisplayName("テスト04 「出勤」ボタンを押下し出勤時間を登録")
 	void test04() {
-		webDriver.findElement(By.xpath(".//input[@value='出勤']")).click();
+		webDriver.findElement(By.xpath(HTML_XPATH_INPUT_VALUE_ATTEND)).click();
 		Alert confirm = webDriver.switchTo().alert();
 		confirm.accept();
 		webDriver.manage().timeouts().implicitlyWait(WAIT_TEN_SECOND, TimeUnit.SECONDS);
@@ -109,9 +109,9 @@ public class Case10 {
 		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy年MM月dd日");
 		String todayString = today.format(formatter);
 		//テストコード実行時の日付と合致する勤怠があるか確認
-		WebElement now = webDriver.findElement(By.id("now"));
+		WebElement now = webDriver.findElement(By.id(HTML_ID_NOW));
 		WebElement targetRecord = null;
-		List<WebElement> trElems = webDriver.findElements(By.xpath("//table/tbody/tr"));
+		List<WebElement> trElems = webDriver.findElements(By.xpath(HTML_XPATH_TBODY_TR));
 		//打刻した日付の情報を取得
 		for (WebElement trElem : trElems) {
 			if (trElem.getText().contains(todayString)) {
@@ -120,11 +120,11 @@ public class Case10 {
 			}
 		}
 		//打刻した日付の出勤情報を取得
-		List<WebElement> targetTableData = targetRecord.findElements(By.xpath(".//td"));
+		List<WebElement> targetTableData = targetRecord.findElements(By.xpath(HTML_XPATH_CHILDELEM_TD));
 		WebElement attendance = null;
 		int count = 0;
 		for (WebElement tdElem : targetTableData) {
-			if (count == 2) {
+			if (count == ATTENDANCE_INFO) {
 				attendance = tdElem;
 				break;
 			}
@@ -140,7 +140,7 @@ public class Case10 {
 	@Order(5)
 	@DisplayName("テスト05 「退勤」ボタンを押下し退勤時間を登録")
 	void test05() {
-		webDriver.findElement(By.xpath(".//input[@value='退勤']")).click();
+		webDriver.findElement(By.xpath(HTML_XPATH_INPUT_VALUE_LEVING)).click();
 		Alert confirm = webDriver.switchTo().alert();
 		confirm.accept();
 		webDriver.manage().timeouts().implicitlyWait(WAIT_TEN_SECOND, TimeUnit.SECONDS);
@@ -152,9 +152,9 @@ public class Case10 {
 		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy年MM月dd日");
 		String todayString = today.format(formatter);
 		//テストコード実行時の日付と合致する勤怠があるか確認
-		WebElement now = webDriver.findElement(By.id("now"));
+		WebElement now = webDriver.findElement(By.id(HTML_ID_NOW));
 		WebElement targetRecord = null;
-		List<WebElement> trElems = webDriver.findElements(By.xpath("//table/tbody/tr"));
+		List<WebElement> trElems = webDriver.findElements(By.xpath(HTML_XPATH_TBODY_TR));
 		//打刻した日付の情報を取得
 		for (WebElement trElem : trElems) {
 			if (trElem.getText().contains(todayString)) {
@@ -163,11 +163,11 @@ public class Case10 {
 			}
 		}
 		//打刻した日付の出勤情報を取得
-		List<WebElement> targetTableData = targetRecord.findElements(By.xpath(".//td"));
+		List<WebElement> targetTableData = targetRecord.findElements(By.xpath(HTML_XPATH_CHILDELEM_TD));
 		WebElement leaving = null;
 		int count = 0;
 		for (WebElement tdElem : targetTableData) {
-			if (count == 3) {
+			if (count == LEVING_INFO) {
 				leaving = tdElem;
 				break;
 			}

@@ -84,7 +84,7 @@ public class Case11 {
 	@DisplayName("テスト03 上部メニューの「勤怠」リンクから勤怠管理画面に遷移")
 	void test03() {
 		//上部メニューの「勤怠」リンクから勤怠管理画面に遷移
-		webDriver.findElement(By.xpath("//a[text()='勤怠']")).click();
+		webDriver.findElement(By.xpath(HTML_XPATH_A_TEXT_ATTEND)).click();
 		Alert alert = webDriver.switchTo().alert();
 		alert.accept();
 		webDriver.manage().timeouts().implicitlyWait(WAIT_TEN_SECOND, TimeUnit.SECONDS);
@@ -99,7 +99,7 @@ public class Case11 {
 	@DisplayName("テスト04 「勤怠情報を直接編集する」リンクから勤怠情報直接変更画面に遷移")
 	void test04() {
 		//上部メニューの「勤怠」リンクから勤怠管理画面に遷移
-		webDriver.findElement(By.xpath("//a[text()='勤怠情報を直接編集する']")).click();
+		webDriver.findElement(By.xpath(HTML_XPATH_A_TEXT_ATTEND_EDIT)).click();
 		webDriver.manage().timeouts().implicitlyWait(WAIT_TEN_SECOND, TimeUnit.SECONDS);
 		getEvidence(new Object() {
 		}, "afterUpdateAttendance_1");
@@ -111,7 +111,7 @@ public class Case11 {
 	@Order(5)
 	@DisplayName("テスト05 すべての研修日程の勤怠情報を正しく更新し勤怠管理画面に遷移")
 	void test05() {
-		List<WebElement> attendRecords = webDriver.findElements(By.xpath("//tbody/tr"));
+		List<WebElement> attendRecords = webDriver.findElements(By.xpath(HTML_XPATH_TBODY_TR));
 		for (int i = 0; i < attendRecords.size(); i++) {
 			Select startHour = new Select(
 					webDriver.findElement(By.name("attendanceList[" + i + "].trainingStartTimeHour")));
@@ -123,48 +123,49 @@ public class Case11 {
 					webDriver.findElement(By.name("attendanceList[" + i + "].trainingEndTimeMinute")));
 			switch (i) {
 			case 0:
-				startHour.selectByVisibleText("09");
-				startMinute.selectByVisibleText("00");
-				endHour.selectByVisibleText("18");
-				endMinute.selectByVisibleText("00");
+				startHour.selectByVisibleText(NINE_HOUR_AM);
+				startMinute.selectByVisibleText(ZERO_MINUTE);
+				endHour.selectByVisibleText(SIX_HOUR_PM);
+				endMinute.selectByVisibleText(ZERO_MINUTE);
 				break;
 			case 1:
-				startHour.selectByVisibleText("11");
-				startMinute.selectByVisibleText("00");
-				endHour.selectByVisibleText("13");
-				endMinute.selectByVisibleText("00");
+				startHour.selectByVisibleText(ELEVEN_HOUR_AM);
+				startMinute.selectByVisibleText(ZERO_MINUTE);
+				endHour.selectByVisibleText(ONE_HOUR_PM);
+				endMinute.selectByVisibleText(ZERO_MINUTE);
 				break;
 			}
 		}
-		WebDriverUtils.scrollBy("1000");
-		webDriver.findElement(By.xpath("//input[@value='更新']")).click();
+		WebDriverUtils.scrollBy(ONE_THOUSAND_PIXEL);
+		webDriver.findElement(By.xpath(HTML_XPATH_INPUT_VALUE_UPDATE)).click();
 		Alert confirm = webDriver.switchTo().alert();
 		confirm.accept();
 
 		webDriver.manage().timeouts().implicitlyWait(WAIT_TEN_SECOND, TimeUnit.SECONDS);
 		getEvidence(new Object() {
 		}, "afterUpdateAttendance_1");
-		
-		List<WebElement> resultAttendRecords = webDriver.findElements(By.xpath("//tbody/tr"));
+
+		List<WebElement> resultAttendRecords = webDriver.findElements(By.xpath(HTML_XPATH_TBODY_TR));
 		String attendTime = null;
 		String levingTime = null;
 		for (int i = 0; i < resultAttendRecords.size(); i++) {
-			List<WebElement> tdResultAttendRecords = resultAttendRecords.get(i).findElements(By.xpath(".//td"));
+			List<WebElement> tdResultAttendRecords = resultAttendRecords.get(i)
+					.findElements(By.xpath(HTML_XPATH_CHILDELEM_TD));
 			//出退勤時間取得
 			for (int j = 0; j < tdResultAttendRecords.size(); j++) {
-				if (j == 2) {
+				if (j == ATTENDANCE_INFO) {
 					attendTime = tdResultAttendRecords.get(j).getText();
-				} else if (j == 3) {
+				} else if (j == LEVING_INFO) {
 					levingTime = tdResultAttendRecords.get(j).getText();
 				}
 			}
 			//出退勤時間テスト
-			if (i == 0) {
-				assertEquals(attendTime,"09:00");
-				assertEquals(levingTime,"18:00");
-			} else if (i == 1) {
-				assertEquals(attendTime,"11:00");
-				assertEquals(levingTime,"13:00");
+			if (i == YESTERDAY) {
+				assertEquals(attendTime, NINE_O_CLOCK_AM);
+				assertEquals(levingTime, SIX_O_CLOCK_PM);
+			} else if (i == TODAY) {
+				assertEquals(attendTime, ELEVEN_O_CLOCK_AM);
+				assertEquals(levingTime, ONE_O_CLOCK_PM);
 			}
 		}
 	}

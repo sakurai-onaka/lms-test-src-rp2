@@ -81,15 +81,15 @@ public class Case08 {
 	@Order(3)
 	@DisplayName("テスト03 提出済の研修日の「詳細」ボタンを押下しセクション詳細画面に遷移")
 	void test03() {
-		List<WebElement> trElems = webDriver.findElements(By.xpath("//table/tbody/tr"));
+		List<WebElement> trElems = webDriver.findElements(By.xpath(HTML_XPATH_TBODY_TR));
 		WebElement targetElem = null;
 		for (WebElement trElem : trElems) {
-			if (trElem.getText().contains("2022年10月2日(日)")) {
+			if (trElem.getText().contains(DATE_2020_10_2)) {
 				targetElem = trElem;
 				break;
 			}
 		}
-		targetElem = targetElem.findElement(By.xpath(".//input[@value='詳細']"));
+		targetElem = targetElem.findElement(By.xpath(HTML_XPATH_CHILDELEM_INPUT_VALUE_DETAIL));
 		targetElem.submit();
 		webDriver.manage().timeouts().implicitlyWait(WAIT_TEN_SECOND, TimeUnit.SECONDS);
 		getEvidence(new Object() {
@@ -102,10 +102,10 @@ public class Case08 {
 	@Order(4)
 	@DisplayName("テスト04 「確認する」ボタンを押下しレポート登録画面に遷移")
 	void test04() {
-		WebDriverUtils.scrollBy("1000");
-		webDriver.findElement(By.xpath("//input[contains(@value,'週報')]")).click();
+		WebDriverUtils.scrollBy(ONE_THOUSAND_PIXEL);
+		webDriver.findElement(By.xpath(HTML_XPATH_INPUT_VALUE_CONTAINS_WEEKLYREPO)).click();
 		webDriver.manage().timeouts().implicitlyWait(WAIT_TEN_SECOND, TimeUnit.SECONDS);
-		WebDriverUtils.scrollBy("1000");
+		WebDriverUtils.scrollBy(ONE_THOUSAND_PIXEL);
 		getEvidence(new Object() {
 		}, "transitionReportRegist");
 		String nowURL = webDriver.getCurrentUrl();
@@ -117,13 +117,13 @@ public class Case08 {
 	@DisplayName("テスト05 報告内容を修正して「提出する」ボタンを押下しセクション詳細画面に遷移")
 	void test05() {
 		
-		WebElement textElem = webDriver.findElement(By.id("content_1"));
-		WebDriverUtils.scrollBy("1000");
+		WebElement textElem = webDriver.findElement(By.id(HTML_ID_CONTENT_ONE));
+		WebDriverUtils.scrollBy(ONE_THOUSAND_PIXEL);
 		textElem.clear();
-		textElem.sendKeys("修正後");
+		textElem.sendKeys(AFTER_FIX_KEYWORD);
 		getEvidence(new Object() {
 		}, "BeforeReportRegist");
-		webDriver.findElement(By.xpath("//button[contains(text(),'提出する')]")).click();
+		webDriver.findElement(By.xpath(HTML_XPATH_BUTTON_TEXT_CONTAINS_SUBMISSION)).click();
 		webDriver.manage().timeouts().implicitlyWait(WAIT_TEN_SECOND, TimeUnit.SECONDS);
 		getEvidence(new Object() {
 		}, "afterReportRegist");
@@ -135,7 +135,7 @@ public class Case08 {
 	@Order(6)
 	@DisplayName("テスト06 上部メニューの「ようこそ○○さん」リンクからユーザー詳細画面に遷移")
 	void test06() {
-		webDriver.findElement(By.xpath("//a[@href='/lms/user/detail']")).click();
+		webDriver.findElement(By.xpath(HTML_XPATH_A_HREF_DETAIL)).click();
 		webDriver.manage().timeouts().implicitlyWait(WAIT_TEN_SECOND, TimeUnit.SECONDS);
 		getEvidence(new Object() {
 		}, "afterHello");
@@ -148,31 +148,31 @@ public class Case08 {
 	@Order(7)
 	@DisplayName("テスト07 該当レポートの「詳細」ボタンを押下しレポート詳細画面で修正内容が反映される")
 	void test07() {
-		WebDriverUtils.scrollBy("1000");
-		List<WebElement> trElems = webDriver.findElements(By.xpath("//table/tbody/tr"));
+		WebDriverUtils.scrollBy(ONE_THOUSAND_PIXEL);
+		List<WebElement> trElems = webDriver.findElements(By.xpath(HTML_XPATH_TBODY_TR));
 		WebElement targetElem = null;
 		for (WebElement trElem : trElems) {
-			if (trElem.getText().contains("2022年10月2日") && trElem.getText().contains("週報")) {
+			if (trElem.getText().contains(DATE_2020_10_2) && trElem.getText().contains(WEEKLYREPORT)) {
 				targetElem = trElem;
 				break;
 			}
 		}
-		targetElem = targetElem.findElement(By.xpath(".//input[@value='詳細']"));
+		targetElem = targetElem.findElement(By.xpath(HTML_XPATH_CHILDELEM_INPUT_VALUE_DETAIL));
 		targetElem.submit();
 		webDriver.manage().timeouts().implicitlyWait(WAIT_TEN_SECOND, TimeUnit.SECONDS);
 		getEvidence(new Object() {
 		}, "reportDetail");
 
-		List<WebElement> tdElems = webDriver.findElements(By.xpath("//table/tbody/tr/td"));
+		List<WebElement> tdElems = webDriver.findElements(By.xpath(HTML_XPATH_TBODY_TR_TD));
 		for (WebElement tdElem : tdElems) {
-			if (tdElem.getText().contains("修正後")) {
+			if (tdElem.getText().contains(AFTER_FIX_KEYWORD)) {
 				targetElem = tdElem;
 				break;
 			}
 		}
 		
 		String updateReport = targetElem.getText();
-		assertEquals(updateReport, "修正後");
+		assertEquals(updateReport, AFTER_FIX_KEYWORD);
 	}
 
 }
